@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { z } from 'zod';
-import { useFormContext, useWatch } from 'react-hook-form';
+import { useFormContext } from 'react-hook-form';
 
 import { CirclePlus, Trash2 } from 'lucide-react';
 
@@ -12,9 +12,7 @@ import { accessoriesEnums, formSchema, trimsEnums } from '../../data';
 
 const AdditionInfo = () => {
 
-    const { control, register, getValues } = useFormContext<z.infer<typeof formSchema>>()
-
-    const values = useWatch({ control })
+    const { control } = useFormContext<z.infer<typeof formSchema>>()
 
     return (
         <>

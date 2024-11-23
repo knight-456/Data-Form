@@ -8,7 +8,7 @@ type TTooltipProvider = {
     tooltipContent: React.ReactNode;
 }
 
-const TooltipView = ({ tooltipTrigger, placement = "right", tooltipContent }: TTooltipProvider) => {
+const TooltipView = ({ tooltipTrigger, tooltipContent }: TTooltipProvider) => {
 
     return (
         <TooltipProvider>

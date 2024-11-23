@@ -12,7 +12,7 @@ import { formSchema } from '../../data';
 
 const BasicDetail = () => {
 
-    const { control, trigger } = useFormContext<z.infer<typeof formSchema>>()
+    const { control } = useFormContext<z.infer<typeof formSchema>>()
 
     return (
         <>

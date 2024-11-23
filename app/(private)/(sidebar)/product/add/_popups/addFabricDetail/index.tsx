@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 
 import { z } from 'zod';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -108,6 +108,9 @@ const AddFabricDetail = ({ setClose }: TAddFabricDetailProps) => {
         dispatcher(setFabricList({ isLoading: true }))
         try {
             setTimeout(() => {
+                toast({
+                    description: "Added Successfully"
+                })
                 dispatcher(setFabricList({ data: fabricList?.data ? [data, ...fabricList?.data] : [data] }))
                 setClose()
             }, 1000)
@@ -157,7 +160,7 @@ const AddFabricDetail = ({ setClose }: TAddFabricDetailProps) => {
                     <FormField
                         control={control}
                         name={"perPieceRequirement"}
-                        render={({ field: { value, onChange } }) => (
+                        render={() => (
                             <FormItem className={"col-span-full md:col-span-1 space-y-1.5"}>
                                 <FormLabel>{"Per Piece Requirement:"}<span className={"text-destructive"}>{"*"}</span></FormLabel>
                                 <FormControl>

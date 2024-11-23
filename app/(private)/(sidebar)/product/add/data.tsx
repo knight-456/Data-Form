@@ -3,8 +3,8 @@ import { z } from "zod";
 export const formSchema = z.object({
     startDate: z.date({ message: "Start date is required!" }),
     endDate: z.date({ message: "end date time is required" }),
-    productionPerDayPerMachine: z.string({ message: "Production per day per machine count is required" }),
-    totalOrderQuantity: z.string({ message: "Total order quantity is required" }),
+    productionPerDayPerMachine: z.string().min(1, { message: "Production per day per machine count is required" }),
+    totalOrderQuantity: z.string().min(1, { message: "Total order quantity is required" }),
     isChinaFabricPresent: z.boolean(),
     fabrics: z.array(
         z.object({

@@ -63,7 +63,7 @@ const ChinaFabric = () => {
                                             type={"radio"}
                                             value={"yes"}
                                             checked={value === true}
-                                            onChange={(event) => onChange(true)}
+                                            onChange={() => onChange(true)}
                                         />
                                         <span>{"Yes"}</span>
                                     </Label>
@@ -72,7 +72,7 @@ const ChinaFabric = () => {
                                             type={"radio"}
                                             value={"no"}
                                             checked={value === false}
-                                            onChange={(event) => onChange(false)}
+                                            onChange={() => onChange(false)}
                                         />
                                         <span>{"No"}</span>
                                     </Label>

@@ -8,7 +8,6 @@ import BaseModal from '@/components/modal/base-modal';
 import { DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Separator } from '@/components/ui/separator';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
 
 import AddFabricDetail from '../../_popups/addFabricDetail';
 

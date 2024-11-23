@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -18,9 +19,19 @@ import FabricSection from './_components/fabricSection';
 import ChinaFabric from './_components/chinaFabric';
 import AdditionalInfo from './_components/additionalInfo';
 
+import { useDispatch, useSelector } from 'react-redux';
+
 import { cn } from '@/lib/utils';
+import { setProductList } from '../_redux/slice';
+
+import { useToast } from '@/hooks/use-toast';
 
 const ProductForm = () => {
+    const { productList } = useSelector((state: any) => state.product)
+
+    const router = useRouter()
+    const dispatcher = useDispatch()
+    const { toast } = useToast()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -53,6 +64,26 @@ const ProductForm = () => {
 
     const onHandleSubmit = async (data: z.infer<typeof formSchema>) => {
 
+        dispatcher(setProductList({ isLoading: true }))
+
+        try {
+            setTimeout(() => {
+                toast({
+                    description: "Added Successfully"
+                })
+                dispatcher(setProductList({ data: productList?.data ? [data, ...productList?.data] : [data] }))
+                reset()
+                router.push("/product")
+            }, 1000)
+        } catch (error: any) {
+            console.error(error?.message || "Something went wrong!")
+            toast({
+                variant: "destructive",
+                description: error?.message || "Something went wrong!"
+            })
+        } finally {
+            dispatcher(setProductList({ isLoading: false }))
+        }
     }
 
     return (
