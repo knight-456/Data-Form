@@ -15,8 +15,14 @@ export const formSchema = z.object({
             color: z.array(z.string()),
             quantity: z.array(z.string()),
             stagesToBeSkipped: z.array(z.string())
-        }).optional()
-    ),
+        })
+    ).optional(),
+    chinaFabric: z.array(
+        z.object({
+            label: z.string(),
+            key: z.string()
+        })
+    ).optional(),
     majorFabric: z.string().default("none"),
     trims: z.array(
         z.object({

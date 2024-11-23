@@ -20,6 +20,7 @@ export type TOptions = {
 }[]
 
 type OptionSelectorProps = {
+    emptyMessage?: string | null,
     message?: string | null;
     searchable?: boolean;
     options: TOptions;
@@ -30,6 +31,7 @@ type OptionSelectorProps = {
 }
 
 const OptionSelector: React.FC<OptionSelectorProps> = ({
+    emptyMessage = "",
     message = "",
     searchable = false,
     options = [],
@@ -54,7 +56,7 @@ const OptionSelector: React.FC<OptionSelectorProps> = ({
                     <CommandList className={"w-full overflow-y-auto scrollbar-thin"}>
                         {(!!options && (options?.length === 0)) &&
                             <CommandEmpty className={"w-full px-3 py-1"}>
-                                {"No options found."}
+                                {emptyMessage || "No options found."}
                             </CommandEmpty>
                         }
                         {!!message &&

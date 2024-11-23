@@ -20,6 +20,9 @@ import OptionSelector from '@/components/option-selector';
 import { fabricNameEnums, processNameEnums, skippedStagesEnums } from '../../data';
 
 import { cn } from '@/lib/utils';
+import { setFabricList } from '../../../_redux/slice';
+import { useDispatch, useSelector } from 'react-redux';
+import { useToast } from '@/hooks/use-toast';
 
 type TAddFabricDetailProps = {
     setClose: () => void
@@ -71,7 +74,12 @@ const AddFabricDetail = ({ setClose }: TAddFabricDetailProps) => {
         trigger
     } = form;
 
+    const { fabricList } = useSelector((state: any) => state.product)
+
     const [colorQuantityPayload, setColorQuantityPayload] = useState(initialColorQuantityState)
+
+    const dispatcher = useDispatch()
+    const { toast } = useToast()
 
     const onHandleChangeText = (key: string, value: string | number) => {
         setColorQuantityPayload({
@@ -95,8 +103,23 @@ const AddFabricDetail = ({ setClose }: TAddFabricDetailProps) => {
         setValue("quantity", filteredQuantity)
     }
 
-    const onHandleSubmit = (data: z.infer<typeof formSchema>) => {
-        console.log("data", data)
+    const onHandleSubmit = async (data: z.infer<typeof formSchema>) => {
+
+        dispatcher(setFabricList({ isLoading: true }))
+        try {
+            setTimeout(() => {
+                dispatcher(setFabricList({ data: fabricList?.data ? [data, ...fabricList?.data] : [data] }))
+                setClose()
+            }, 1000)
+        } catch (error: any) {
+            console.error(error?.message || "Something went wrong!")
+            toast({
+                variant: "destructive",
+                description: error?.message || "Something went wrong!"
+            })
+        } finally {
+            dispatcher(setFabricList({ isLoading: false }))
+        }
     }
 
     return (
@@ -370,27 +393,27 @@ const AddFabricDetail = ({ setClose }: TAddFabricDetailProps) => {
                     <div className={"flex items-center justify-end gap-5"}>
                         <Button
                             type={"submit"}
-                            disabled={isLoading || isSubmitting || !isValid}
+                            disabled={isLoading || isSubmitting || !isValid || fabricList?.isLoading}
                             className={cn(
                                 "px-5 md:px-8 h-10 flex items-center justify-center",
                                 "transition-all ease-in-out duration-100 text-primary-foreground",
                                 "font-buttons font-medium",
                                 !isValid
                                     ? "bg-primary/40 font-normal !cursor-not-allowed"
-                                    : (isSubmitting || isLoading)
+                                    : (isSubmitting || isLoading || fabricList?.isLoading)
                                         ? "text-primary-foreground bg-primary cursor-wait"
                                         : "bg-primary hover:text-primary-foreground hover:bg-primary hover:opacity-90 cursor-pointer"
                             )}
                         >
-                            {(isSubmitting || isLoading) &&
+                            {(isSubmitting || isLoading || fabricList?.isLoading) &&
                                 <LoaderPinwheel className={"animate-spin"} size={24} />
                             }
-                            {(!isLoading && !isSubmitting) && "Submit"}
+                            {(!isLoading && !isSubmitting && !fabricList?.isLoading) && "Submit"}
                         </Button>
                         <Button
                             variant={"link"}
                             disabled={isLoading || isSubmitting}
-                            onClick={() => reset()}
+                            onClick={() => { reset(); setClose() }}
                         >
                             {"Cancel"}
                         </Button>

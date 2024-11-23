@@ -32,6 +32,7 @@ const ProductForm = () => {
             totalOrderQuantity: "",
             fabrics: [],
             isChinaFabricPresent: false,
+            chinaFabric: [],
             majorFabric: "none",
             trims: [],
             accessories: []
