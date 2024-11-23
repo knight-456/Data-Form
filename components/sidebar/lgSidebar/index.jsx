@@ -37,7 +37,7 @@ const LgSideBarView = () => {
                         <div className={"flex flex-nowrap items-center justify-start gap-2"}>
                             <div className={"w-8 h-8 overflow-hidden rounded"}>
                                 <img
-                                    src={""}
+                                    src={"https://static.vecteezy.com/system/resources/thumbnails/011/883/295/small/modern-graphic-troly-colorful-logo-good-for-technology-logo-e-commerce-logo-online-shop-logo-company-logo-dummy-logo-bussiness-logo-free-vector.jpg"}
                                     alt={"Dkc-exports"}
                                     className={"w-full h-full object-cover"}
                                 />
@@ -49,12 +49,12 @@ const LgSideBarView = () => {
                         <TooltipProvider>
                             <Tooltip>
                                 <TooltipTrigger>
-                                    <button
+                                    <div
                                         className={cn("p-1 shadow-lg rounded-full group-hover:bg-background")}
                                         onClick={(e) => { e.stopPropagation(); setIsExpand(false); }}
                                     >
                                         <ChevronsRight className={cn("text-lg rotate-180")} />
-                                    </button>
+                                    </div>
                                 </TooltipTrigger>
                                 <TooltipContent placement={"right"}>
                                     <p>{"Collapse"}</p>
@@ -92,12 +92,12 @@ const LgSideBarView = () => {
                 <TooltipProvider>
                     <Tooltip>
                         <TooltipTrigger>
-                            <button
+                            <div
                                 className={cn("p-1 mt-5 -mr-4 shadow-lg rounded-full bg-muted")}
                                 onClick={() => setIsExpand(true)}
                             >
                                 <ChevronsRight className={cn("text-lg")} />
-                            </button>
+                            </div>
                         </TooltipTrigger>
                         <TooltipContent placement={"right"}>
                             <p>{"Expand"}</p>

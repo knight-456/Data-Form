@@ -1,3 +1,5 @@
+import { Toaster } from '@/components/ui/toaster';
+
 import ThemeProvider from './theme.provider';
 import ModalProvider from './modal.provider';
 import StoreProvider from './store.provider';
@@ -9,13 +11,14 @@ type TProvider = {
 const Provider = ({ children }: TProvider) => {
 
     return (
-        <ThemeProvider>
-            <StoreProvider>
+        <StoreProvider>
+            <ThemeProvider>
                 <ModalProvider>
+                    <Toaster />
                     {children}
                 </ModalProvider>
-            </StoreProvider>
-        </ThemeProvider>
+            </ThemeProvider>
+        </StoreProvider>
     )
 }
 

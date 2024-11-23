@@ -80,7 +80,7 @@ const SmSideBarView = () => {
                         <div className={"flex flex-nowrap items-center justify-start gap-2"}>
                             <div className={"w-8 h-8 overflow-hidden rounded"}>
                                 <img
-                                    src={""}
+                                    src={"https://static.vecteezy.com/system/resources/thumbnails/011/883/295/small/modern-graphic-troly-colorful-logo-good-for-technology-logo-e-commerce-logo-online-shop-logo-company-logo-dummy-logo-bussiness-logo-free-vector.jpg"}
                                     alt={"DKC"}
                                     className={"w-full h-full object-cover"}
                                 />
