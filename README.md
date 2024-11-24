@@ -31,4 +31,4 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 ## Deploy on Netlify
 
-Site url: https://6742ca25e7dc860008092c79--jashwantform.netlify.app/dashboard
+Site url: https://6742ca25e7dc860008092c79--jashwantform.netlify.app
