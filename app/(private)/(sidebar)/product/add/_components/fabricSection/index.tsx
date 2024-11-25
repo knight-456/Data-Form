@@ -67,6 +67,7 @@ const FabricSection = () => {
                 }
             </div>
             <button
+                type={"button"}
                 className={"w-full flex items-center justify-center gap-2 py-2 border-2 border-dashed border-muted rounded-md"}
                 onClick={onHandleAddFabrics}
             >
