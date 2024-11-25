@@ -71,7 +71,7 @@ const ProductForm = () => {
                 toast({
                     description: "Added Successfully"
                 })
-                dispatcher(setProductList({ data: productList?.data ? [data, ...productList?.data] : [data] }))
+                // dispatcher(setProductList({ data: productList?.data ? [data, ...productList?.data] : [data] }))
                 reset()
                 router.push("/product")
             }, 1000)
