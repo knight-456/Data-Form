@@ -31,7 +31,7 @@ const FabricHeader = () => {
     )
 }
 
-const FabricSection = () => {
+const FabricSection = ({ totalOrderQuantity }: { totalOrderQuantity: number }) => {
     const { fabricList } = useSelector((state: any) => state.product)
 
     const { setOpen, setClose } = useModal()
@@ -39,7 +39,7 @@ const FabricSection = () => {
     const onHandleAddFabrics = () => {
         setOpen(
             <BaseModal heading={<FabricHeader />} contentClassName={"w-full max-w-2xl"}>
-                <AddFabricDetail setClose={setClose} />
+                <AddFabricDetail setClose={setClose} totalOrderQuantity={totalOrderQuantity} />
             </BaseModal>
         )
     }

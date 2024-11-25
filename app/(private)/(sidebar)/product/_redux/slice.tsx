@@ -13,6 +13,10 @@ const product = createSlice({
             state.productList = productInitialState.productList
         },
 
+        setAddProductDetail: (state, { payload }) => {
+            state.addProductDetail = { ...state.addProductDetail, ...payload }
+        },
+
         setFabricList: (state, { payload }) => {
             state.fabricList = { ...state.fabricList, ...payload }
         },
@@ -25,6 +29,8 @@ const product = createSlice({
 export const {
     setProductList,
     resetProductList,
+
+    setAddProductDetail,
 
     setFabricList,
     resetFabricList,

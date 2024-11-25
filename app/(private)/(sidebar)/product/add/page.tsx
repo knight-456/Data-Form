@@ -11,6 +11,9 @@ import { LoaderPinwheel } from 'lucide-react';
 
 import { Separator } from '@/components/ui/separator';
 import { Button } from '@/components/ui/button';
+import SubmittedFormDetail from './_popups/form-data';
+import { DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import BaseModal from '@/components/modal/base-modal';
 
 import { formSchema } from './data';
 import BasicDetail from './_components/basicDetail';
@@ -22,9 +25,27 @@ import AdditionalInfo from './_components/additionalInfo';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { cn } from '@/lib/utils';
-import { setProductList } from '../_redux/slice';
+import { setAddProductDetail, setProductList } from '../_redux/slice';
 
 import { useToast } from '@/hooks/use-toast';
+
+import { useModal } from '@/app/provider/modal.provider';
+
+
+const FabricHeader = () => {
+    return (
+        <div className={"space-y-5 mb-5"}>
+            <DialogHeader>
+                <DialogTitle className={"text-xl"}>
+                    {"Form Detail"}
+                </DialogTitle>
+            </DialogHeader>
+            <div className={"-mx-5"}>
+                <Separator className={"w-full"} />
+            </div>
+        </div>
+    )
+}
 
 const ProductForm = () => {
     const { productList } = useSelector((state: any) => state.product)
@@ -32,6 +53,7 @@ const ProductForm = () => {
     const router = useRouter()
     const dispatcher = useDispatch()
     const { toast } = useToast()
+    const { setOpen, setClose } = useModal()
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -39,8 +61,8 @@ const ProductForm = () => {
         defaultValues: {
             startDate: new Date(),
             endDate: new Date(),
-            productionPerDayPerMachine: "",
-            totalOrderQuantity: "",
+            productionPerDayPerMachine: null,
+            totalOrderQuantity: null,
             fabrics: [],
             isChinaFabricPresent: false,
             chinaFabric: [],
@@ -51,6 +73,7 @@ const ProductForm = () => {
     })
 
     const {
+        getValues,
         handleSubmit,
         reset,
         formState: { isLoading, isValid, isSubmitting }
@@ -71,9 +94,19 @@ const ProductForm = () => {
                 toast({
                     description: "Added Successfully"
                 })
-                // dispatcher(setProductList({ data: productList?.data ? [data, ...productList?.data] : [data] }))
+                const updatedData: any = {
+                    ...data,
+                    id: productList?.data?.length + 1,
+                    thumbnailUrl: "https://fastly.picsum.photos/id/7/367/267.jpg?hmac=7scfIEZwG08cgYCiNifF6mEOaFpXAt2N-Q7oaA37ZQk",
+                }
+                dispatcher(setAddProductDetail({ data: updatedData }))
                 reset()
                 router.push("/product")
+                setOpen(
+                    <BaseModal heading={<FabricHeader />} contentClassName={"w-full max-w-2xl"}>
+                        <SubmittedFormDetail setClose={setClose} />
+                    </BaseModal>
+                )
             }, 1000)
         } catch (error: any) {
             console.error(error?.message || "Something went wrong!")
@@ -106,7 +139,7 @@ const ProductForm = () => {
                             <div className={"w-full grid grid-cols-2 gap-5 md:gap-8"}>
                                 <BasicDetail />
                                 <OrderInfo />
-                                <FabricSection />
+                                <FabricSection totalOrderQuantity={Number(getValues("totalOrderQuantity"))} />
                                 <ChinaFabric />
                                 {/* <div className={"w-full col-span-full -mx-5"}>
                                     <Separator className={"w-full"} />

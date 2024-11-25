@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 
 import { z } from 'zod';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -25,7 +25,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useToast } from '@/hooks/use-toast';
 
 type TAddFabricDetailProps = {
-    setClose: () => void
+    setClose: () => void;
+    totalOrderQuantity: number
 }
 
 const formSchema = z.object({
@@ -55,7 +56,7 @@ const initialColorQuantityState = {
     quantity: 0
 }
 
-const AddFabricDetail = ({ setClose }: TAddFabricDetailProps) => {
+const AddFabricDetail = ({ setClose, totalOrderQuantity }: TAddFabricDetailProps) => {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -81,6 +82,22 @@ const AddFabricDetail = ({ setClose }: TAddFabricDetailProps) => {
     const dispatcher = useDispatch()
     const { toast } = useToast()
 
+    const fabricNameList = useMemo(() => {
+        let filteredFabricNames = Object.values(fabricNameEnums) || [];
+
+        if (!!fabricList?.data?.length) {
+            filteredFabricNames = filteredFabricNames.filter((item) => {
+                const isFabricNameUsed = fabricList?.data?.some(
+                    (fabricItem: any) => fabricItem?.fabricName === item?.key
+                );
+
+                return !isFabricNameUsed;
+            });
+        }
+
+        return filteredFabricNames;
+    }, [fabricList?.data, fabricNameEnums]);
+
     const onHandleChangeText = (key: string, value: string | number) => {
         setColorQuantityPayload({
             ...colorQuantityPayload,
@@ -90,6 +107,29 @@ const AddFabricDetail = ({ setClose }: TAddFabricDetailProps) => {
 
     const onHandleAddColorQuantity = () => {
         if (!colorQuantityPayload.color || !colorQuantityPayload.quantity) return;
+
+        if (!totalOrderQuantity) {
+            alert("You haven't entered total order quantity, Please specify total order quantity first")
+            return;
+        }
+
+        if (totalOrderQuantity) {
+            if (!!getValues("quantity")?.length) {
+                const totalQuantity = getValues("quantity").reduce((acc, curr) => {
+                    return acc + curr;
+                }, 0)
+
+                if (totalQuantity > totalOrderQuantity) {
+                    alert("Sum of all quantity for a single fabric shouldn't exceed Total Order Quantity")
+                    return;
+                }
+            } else {
+                if (colorQuantityPayload.quantity > totalOrderQuantity) {
+                    alert("Sum of all quantity for a single fabric shouldn't exceed Total Order Quantity")
+                    return;
+                }
+            }
+        }
 
         setValue("color", [...getValues("color"), colorQuantityPayload?.color])
         setValue("quantity", [...getValues("quantity"), colorQuantityPayload?.quantity])
@@ -138,7 +178,7 @@ const AddFabricDetail = ({ setClose }: TAddFabricDetailProps) => {
                                 <FormControl>
                                     <div className={"inline-flex flex-wrap items-center gap-3"}>
                                         <OptionSelector
-                                            options={Object.values(fabricNameEnums)?.filter((fabricItem) => fabricItem?.key !== value)}
+                                            options={fabricNameList?.filter((fabricItem) => fabricItem?.key !== value)}
                                             searchable={true}
                                             selectedOption={
                                                 <Button

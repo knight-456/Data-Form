@@ -14,7 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setProductList } from "./_redux/slice";
 
 const ProductPage = () => {
-    const { productList } = useSelector((state: any) => state.product)
+    const { productList, addProductDetail } = useSelector((state: any) => state.product)
 
     const router = useRouter()
     const dispatcher = useDispatch()
@@ -28,9 +28,20 @@ const ProductPage = () => {
 
         try {
             setTimeout(() => {
-                dispatcher(setProductList({ data: productList?.data ? [...productList?.data, ...dummyData] : dummyData }))
-                router.push("/product")
+                // const existingData = dummyData || [];
+                // const newData = addProductDetail?.data || {};
+
+                // let allProducts = []
+                // if (newData) {
+                //     allProducts = [...existingData, newData];
+                // }
+                // const uniqueProducts = Array.from(
+                //     new Map(allProducts.map((product) => [product.id, product])).values()
+                // );
+
+                dispatcher(setProductList({ data: dummyData }));
             }, 1000)
+
         } catch (error: any) {
             console.error(error?.message || "Something went wrong!")
         } finally {
@@ -57,6 +68,9 @@ const ProductPage = () => {
             {!!productList?.isLoading &&
                 <span>{"Loading ...."}</span>
             }
+            {!!productList?.error &&
+                <span>{productList?.error || "Something went wrong!"}</span>
+            }
             {!!productList?.data &&
                 <div className={"grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"}>
                     {productList?.data?.map((productItem: any, index: number) => (
@@ -78,7 +92,7 @@ const ProductPage = () => {
                                         {"Start Date:"}
                                     </span>
                                     <span>
-                                        {productItem?.startDate}
+                                        {new Date(productItem?.startDate).toLocaleDateString() || "11/11/2024"}
                                     </span>
                                 </div>
                                 <div className={"flex items-center gap-2"}>
@@ -86,7 +100,7 @@ const ProductPage = () => {
                                         {"End Date:"}
                                     </span>
                                     <span>
-                                        {productItem?.endDate}
+                                        {new Date(productItem?.endDate).toLocaleDateString() || "11/13/2024"}
                                     </span>
                                 </div>
                             </div>

@@ -3,8 +3,15 @@ import { z } from "zod";
 export const formSchema = z.object({
     startDate: z.date({ message: "Start date is required!" }),
     endDate: z.date({ message: "end date time is required" }),
-    productionPerDayPerMachine: z.string().min(1, { message: "Production per day per machine count is required" }),
-    totalOrderQuantity: z.string().min(1, { message: "Total order quantity is required" }),
+    productionPerDayPerMachine: z.string()
+        .min(1, { message: "Production per day per machine count is required" })
+        .refine(value => !isNaN(Number(value)), { message: "Production per day per machine count must be a valid number" })
+        .transform(value => Number(value)),
+
+    totalOrderQuantity: z.string()
+        .min(1, { message: "Total order quantity is required" })
+        .refine(value => !isNaN(Number(value)), { message: "Total order quantity must be a valid number" })
+        .transform(value => Number(value)),
     isChinaFabricPresent: z.boolean(),
     fabrics: z.array(
         z.object({
