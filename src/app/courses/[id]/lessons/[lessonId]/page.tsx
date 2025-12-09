@@ -59,7 +59,7 @@ export default function LessonPage() {
     setLessonFinished(true);
   };
 
-  const handleAnswerSelect = (answer) => {
+  const handleAnswerSelect = (answer: any) => {
     const newAnswers = [...selectedAnswers];
     newAnswers[currentQuestionIndex] = answer;
     setSelectedAnswers(newAnswers);
