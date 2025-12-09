@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { QuizQuestion } from '@/lib/data';
-import { Button } from './ui/button';
+import { useState } from "react";
+import { QuizQuestion } from "@/lib/data";
+import { Button } from "./ui/button";
 
 interface QuizProps {
   questions: QuizQuestion[];
@@ -12,6 +12,8 @@ interface QuizProps {
 export function Quiz({ questions, onQuizComplete }: QuizProps) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState<string[]>([]);
+  const [shortAnswerText, setShortAnswerText] = useState("");
+  const [longAnswerText, setLongAnswerText] = useState("");
 
   const handleAnswerSelect = (answer: string) => {
     const newAnswers = [...selectedAnswers];
@@ -42,30 +44,48 @@ export function Quiz({ questions, onQuizComplete }: QuizProps) {
         Quiz: Question {currentQuestionIndex + 1} of {questions.length}
       </h3>
       <p className="text-lg mb-4">{currentQuestion.question}</p>
-      <div className="flex flex-col gap-4">
-        {currentQuestion.options.map((option) => (
-          <Button
-            key={option}
-            variant={
-              selectedAnswers[currentQuestionIndex] === option
-                ? 'default'
-                : 'outline'
+      {["short", "long"]?.includes(currentQuestion?.type) && (
+        <textarea
+        className="w-full border border-white px-5 py-4 rounded-md"
+        rows={5}
+          value={
+            currentQuestion?.type === "short" ? shortAnswerText : longAnswerText
+          }
+          onChange={(event) => {
+            if (currentQuestion?.type === "long") {
+              setLongAnswerText(event?.target?.value);
+            } else {
+               setShortAnswerText(event?.target?.value);
             }
-            onClick={() => handleAnswerSelect(option)}
-            className="w-full justify-start"
-          >
-            {option}
-          </Button>
-        ))}
-      </div>
+          }}
+        />
+      )}
+      {currentQuestion?.type === "mcq" && (
+        <div className="flex flex-col gap-4">
+          {currentQuestion.options.map((option) => (
+            <Button
+              key={option}
+              variant={
+                selectedAnswers[currentQuestionIndex] === option
+                  ? "default"
+                  : "outline"
+              }
+              onClick={() => handleAnswerSelect(option)}
+              className="w-full justify-start"
+            >
+              {option}
+            </Button>
+          ))}
+        </div>
+      )}
       <Button
         onClick={handleNextQuestion}
         disabled={!selectedAnswers[currentQuestionIndex]}
         className="mt-6"
       >
         {currentQuestionIndex < questions.length - 1
-          ? 'Next Question'
-          : 'Finish Quiz'}
+          ? "Next Question"
+          : "Finish Quiz"}
       </Button>
     </div>
   );
