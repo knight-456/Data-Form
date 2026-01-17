@@ -1,25 +1,24 @@
-import { Toaster } from '@/components/ui/toaster';
+import { Toaster } from "@/components/ui/toaster";
 
-import ThemeProvider from './theme.provider';
-import ModalProvider from './modal.provider';
-import StoreProvider from './store.provider';
+import ThemeProvider from "./theme.provider";
+import ModalProvider from "./modal.provider";
+import StoreProvider from "./store.provider";
 
 type TProvider = {
-    children: React.ReactNode
-}
+  children: React.ReactNode;
+};
 
 const Provider = ({ children }: TProvider) => {
-
-    return (
-        <StoreProvider>
-            <ThemeProvider>
-                <ModalProvider>
-                    <Toaster />
-                    {children}
-                </ModalProvider>
-            </ThemeProvider>
-        </StoreProvider>
-    )
-}
+  return (
+    <StoreProvider>
+      <ThemeProvider>
+        <ModalProvider>
+          <Toaster />
+          {children}
+        </ModalProvider>
+      </ThemeProvider>
+    </StoreProvider>
+  );
+};
 
 export default Provider;
