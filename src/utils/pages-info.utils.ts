@@ -1,0 +1,651 @@
+import { userRoleEnums } from "@/services/local/local.const";
+
+// export const getPagePath = (path: string, role: string) => {
+//   for (const pageKey in pagesInfo) {
+//     const page = pagesInfo[pageKey as keyof typeof pagesInfo];
+
+
+//     if (page.regex.test(path) && page.role.includes(role)) {
+//       return page;
+//     }
+
+//     if (page?.child) {
+//       for (const childKey in page?.child) {
+//         const child = page?.child[childKey];
+//         if (child.regex.test(path) && child.role.includes(role)) {
+//           return child;
+//         }
+//       }
+//     }
+//   }
+
+//   return null;
+// };
+
+export const getPath = (path: string, params: Record<string, string | number>): string => {
+  return Object.keys(params).reduce((updatedPath, key) => {
+    const placeholder = `:${key}`;
+    return updatedPath.replace(placeholder, String(params[key]));
+  }, path);
+};
+
+export const isPathMatch = (regexList: RegExp[], path: string): boolean =>
+  regexList.some((regex) => regex.test(path));
+
+export const pagesInfo = {
+  // public pages
+  home: {
+    key: "home",
+    label: "Home",
+    path: "/",
+    regex: /^\/$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  login: {
+    key: "login",
+    label: "Login",
+    path: "/login",
+    regex: /^\/login$/,
+    role: Object.values(userRoleEnums).map((role) => role.value),
+    child: {},
+  },
+  privacy: {
+    key: "privacy",
+    label: "Privacy",
+    path: "/privacy",
+    regex: /^\/privacy$/,
+   role: Object.values(userRoleEnums).map((role) => role.value),
+    child: {},
+  },
+  terms: {
+    key: "terms",
+    label: "Terms",
+    path: "/terms",
+    regex: /^\/terms$/,
+    role: Object.values(userRoleEnums).map((role) => role.value),
+    child: {},
+  },
+  data_deletion: {
+    key: "data_deletion",
+    label: "Data Deletion",
+    path: "/data_deletion",
+    regex: /^\/terms$/,
+  role: Object.values(userRoleEnums).map((role) => role.value),
+    child: {},
+  },
+  unauthorized: {
+    key: "unauthorized",
+    label: "Unauthorized",
+    path: "/unauthorized",
+    regex: /^\/unauthorized$/,
+    role: Object.values(userRoleEnums).map((role) => role.value),
+    child: {},
+  },
+  admin: {
+    key: "admin",
+    label: "Admin",
+    path: "/admin",
+    regex: /^\/admin$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  theme: {
+    key: "theme",
+    label: "Theme Settings",
+    path: "/theme",
+    regex: /^\/theme$/,
+    role: [userRoleEnums.admin.value],
+    child: {},
+  },
+
+  // private pages
+  emailtemplates: {
+    key: "emailtemplates",
+    label: "Email Templates",
+    path: "/emailtemplates",
+    regex: /^\/emailtemplates$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  company: {
+    key: "company",
+    label: "Company",
+    path: "/company",
+    regex: /^\/company$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  dashboard: {
+    key: "dashboard",
+    label: "Dashboard",
+    path: "/dashboard",
+    regex: /^\/dashboard$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  orders_dashboard: {
+    key: "orders_dashboard",
+    label: "Orders dashboard",
+    path: "/dashboard/orders",
+    regex: /^\/dashboard\/orders$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  call_logs: {
+    key: "call_logs",
+    label: "Call Logs",
+    path: "/call-logs",
+    regex: /^\/call-logs$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  customers_dashboard: {
+    key: "customers_dashboard",
+    label: "Customers dashboard",
+    path: "/dashboard/customers",
+    regex: /^\/dashboard\/customers$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  customers_dashboard_detail: {
+    key: "customers_dashboard_detail",
+    label: "Customers dashboard",
+    path: "/dashboard/customers/:id",
+    regex: /^\/dashboard\/customers\/[^/]+$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  payroll_dashboard: {
+    key: "payroll_dashboard",
+    label: "Payroll dashboard",
+    path: "/dashboard/payroll",
+    regex: /^\/dashboard\/payroll$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  team_performance_dashboard: {
+    key: "team_performance_dashboard",
+    label: "Team performance dashboard",
+    path: "/dashboard/team-performance",
+    regex: /^\/dashboard\/team-performance$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  follow_up_dashboard: {
+    key: "follow_up_dashboard",
+    label: "Follow up dashboard",
+    path: "/dashboard/follow-up",
+    regex: /^\/dashboard\/follow-up$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  analytics_dashboard: {
+    key: "analytics_dashboard",
+    label: "Analytics Dashboard",
+    path: "/analytics-dashboard",
+    regex: /^\/analytics-dashboard$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  admin_visits: {
+    key: "admin_visits",
+    label: "Admin Visits",
+    path: "/admin-visits",
+    regex: /^\/admin-visits$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  admin_visit_detail: {
+    key: "admin_visit_detail",
+    label: "Admin Visit Detail",
+    path: "/admin-visits/:id",
+    regex: /^\/admin-visits\/[^/]+$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  customer_detail: {
+    key: "customer_detail",
+    label: "Customer Detail",
+    path: "/customer/:id",
+    regex: /^\/customer\/[^/]+$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  employee_dashboard: {
+    key: "employee_dashboard",
+    label: "Employee Dashboard",
+    path: "/employee-dashboard",
+    regex: /^\/employee-dashboard$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  employees: {
+    key: "employees",
+    label: "employees",
+    path: "/employees",
+    regex: /^\/employees$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  // employess: {
+  //   key: "employess",
+  //   label: "Employess",
+  //   path: "/employess",
+  //   regex: /^\/employess$/,
+  //   role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+  //   child: {},
+  // },
+  employee_detail: {
+    key: "employee_detail",
+    label: "Employee Detail",
+    path: "/employee/:id",
+    regex: /^\/employee\/[^/]+$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  leads: {
+    key: "leads",
+    label: "Leads",
+    path: "/leads",
+    regex: /^\/leads$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  leads_import: {
+    key: "leads_import",
+    label: "Leads Import",
+    path: "/leads/import",
+    regex: /^\/leads\/import$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  lead_detail: {
+    key: "lead_detail",
+    label: "Lead Detail",
+    path: "/lead/:id",
+    regex: /^\/lead\/[^/]+$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  projects: {
+    key: "projects",
+    label: "Projects",
+    path: "/projects",
+    regex: /^\/projects$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  products: {
+    key: "products",
+    label: "Products",
+    path: "/products",
+    regex: /^\/products$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  orders: {
+    key: "orders",
+    label: "Orders",
+    path: "/orders",
+    regex: /^\/orders$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  order_detail: {
+    key: "order_detail",
+    label: "Order Detail",
+    path: "/order/:id",
+    regex: /^\/order\/[^/]+$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  resources: {
+    key: "resources",
+    label: "Resources",
+    path: "/resources",
+    regex: /^\/resources$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  add_order: {
+    key: "add_order",
+    label: "Add order",
+    path: "/add-order",
+    regex: /^\/add-order$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  timeline: {
+    key: "timeline",
+    label: "timeline",
+    path: "/timeline",
+    regex: /^\/timeline$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  attendance: {
+    key: "attendance",
+    label: "attendance",
+    path: "/attendance",
+    regex: /^\/attendance$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  tracking: {
+    key: "tracking",
+    label: "tracking",
+    path: "/tracking",
+    regex: /^\/tracking$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  integrations: {
+    key: "integrations",
+    label: "integrations",
+    path: "/integrations",
+    regex: /^\/integrations$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  integrations_whatsapp: {
+    key: "integrations_whatsapp",
+    label: "WhatsApp Integration",
+    path: "/integrations/whatsapp",
+    regex: /^\/integrations\/whatsapp$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  integrations_website_lead_widget: {
+    key: "integrations_website_lead_widget",
+    label: "Website Lead Widget",
+    path: "/integrations/website-lead-widget",
+    regex: /^\/integrations\/website-lead-widget$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  integrations_google_ads: {
+    key: "integrations_google_ads",
+    label: "Google Ads",
+    path: "/integrations/google-ads",
+    regex: /^\/integrations\/google-ads$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  integrations_linkedin: {
+    key: "integrations_linkedin",
+    label: "LinkedIn Integration",
+    path: "/integrations/linkedin",
+    regex: /^\/integrations\/linkedin$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+   messages: {
+    key: "messages",
+    label: "Messages",
+    path: "/messages",
+    regex: /^\/messages$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  permission_denied: {
+    key: "permission_denied",
+    label: "Permission Denied",
+    path: "integrations/permission_denied",
+    regex: /^\/integrations\/permission_denied$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  subscription: {
+    key: "subscription",
+    label: "subscription",
+    path: "/subscription",
+    regex: /^\/subscription$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  // integrated_leads: {
+  //   key: "integrated_leads",
+  //   label: "Integrated Leads",
+  //   path: "/integrated_leads",
+  //   regex: /^\/integrated_leads$/,
+  //   role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+  //   child: {},
+  // },
+  form_builder: {
+    key: "form_builder",
+    label: "Form Builder",
+    path: "/form_builder",
+    regex: /^\/form_builder$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  form_viewer: {
+    key: "dashboard",
+    label: "Dashboard",
+    path: "/dashboard",
+    regex: /^\/form_viewer$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  },
+  whatsapp_ai_manager:{
+    key: "whatsapp_ai_manager",
+    label: "Dashboard",
+    path: "/dashboard/whatsapp-manager",
+   regex: /^\/dashboard\/whatsapp-manager$/,
+    role: [userRoleEnums.admin.value, userRoleEnums.company.value, userRoleEnums.employee.value],
+    child: {},
+  }
+};
+
+export const navbarPages = [
+  // delete this page when no need
+  // pagesInfo.admin.regex,
+
+  pagesInfo.dashboard.regex,
+  pagesInfo.orders_dashboard.regex,
+  pagesInfo.call_logs.regex,
+  pagesInfo.customers_dashboard.regex,
+  pagesInfo.payroll_dashboard.regex,
+  pagesInfo.team_performance_dashboard.regex,
+  pagesInfo.follow_up_dashboard.regex,
+  pagesInfo.analytics_dashboard.regex,
+  pagesInfo.admin_visits.regex,
+  pagesInfo.admin_visit_detail.regex,
+  pagesInfo.customer_detail.regex,
+  pagesInfo.employee_dashboard.regex,
+  pagesInfo.employees.regex,
+  pagesInfo.emailtemplates.regex,
+  // pagesInfo.employess.regex,
+  pagesInfo.employee_detail.regex,
+  pagesInfo.leads.regex,
+  pagesInfo.leads_import.regex,
+  pagesInfo.lead_detail.regex,
+  pagesInfo.projects.regex,
+  pagesInfo.products.regex,
+  pagesInfo.orders.regex,
+  pagesInfo.order_detail.regex,
+  pagesInfo.add_order.regex,
+  pagesInfo.timeline.regex,
+  pagesInfo.attendance.regex,
+  pagesInfo.tracking.regex,
+  pagesInfo.resources.regex,
+  pagesInfo.integrations.regex,
+  pagesInfo.integrations_whatsapp.regex,
+  pagesInfo.integrations_website_lead_widget.regex,
+  pagesInfo.integrations_google_ads.regex,
+  pagesInfo.integrations_linkedin.regex,
+  pagesInfo.subscription.regex,
+  pagesInfo.messages.regex,
+  pagesInfo.permission_denied.regex,
+  pagesInfo.whatsapp_ai_manager.regex,
+  // pagesInfo.integrated_leads.regex,
+  // pagesInfo.form_builder.regex,
+  // pagesInfo.form_viewer.regex,
+];
+
+export const sidebarPages = [
+  // delete this page when no need
+  // pagesInfo.admin.regex,
+
+  pagesInfo.dashboard.regex,
+  pagesInfo.orders_dashboard.regex,
+  pagesInfo.call_logs.regex,
+  pagesInfo.customers_dashboard.regex,
+  pagesInfo.payroll_dashboard.regex,
+  pagesInfo.team_performance_dashboard.regex,
+  pagesInfo.follow_up_dashboard.regex,
+  pagesInfo.admin_visits.regex,
+  pagesInfo.admin_visit_detail.regex,
+  pagesInfo.customer_detail.regex,
+  pagesInfo.analytics_dashboard.regex,
+  pagesInfo.employee_dashboard.regex,
+  pagesInfo.employees.regex,
+  pagesInfo.emailtemplates.regex,
+  // pagesInfo.employess.regex,
+  pagesInfo.employee_detail.regex,
+  pagesInfo.messages.regex,
+  pagesInfo.leads.regex,
+  pagesInfo.leads_import.regex,
+  pagesInfo.lead_detail.regex,
+  pagesInfo.projects.regex,
+  pagesInfo.products.regex,
+  pagesInfo.orders.regex,
+  pagesInfo.order_detail.regex,
+  pagesInfo.add_order.regex,
+  pagesInfo.timeline.regex,
+  pagesInfo.attendance.regex,
+  pagesInfo.tracking.regex,
+  pagesInfo.resources.regex,
+  pagesInfo.integrations.regex,
+  pagesInfo.integrations_whatsapp.regex,
+  pagesInfo.integrations_website_lead_widget.regex,
+  pagesInfo.integrations_google_ads.regex,
+  pagesInfo.integrations_linkedin.regex,
+  pagesInfo.whatsapp_ai_manager.regex,
+  // pagesInfo.integrated_leads.regex,
+  // pagesInfo.form_builder.regex,
+  // pagesInfo.form_viewer.regex,
+];
+
+export const publicPages: string[] = [
+  // pagesInfo.home.path
+];
+
+export const sidebarNavLinkConsts = {
+  dashboard: {
+    key: "dashboard",
+    label: "Dashboard",
+    iconUrl: "/sidebar/dashboard.svg",
+    path: pagesInfo.dashboard.path,
+    tooltip: "Dashboard",
+  },
+
+  // admin_visit_detail: {
+  //   key: "admin_visit_detail",
+  //   label: "Admin Visit Detail",
+  //   iconUrl: "/sidebar/analytics-dashboard.svg",
+  //   path: pagesInfo.admin_visit_detail.path,
+  //   tooltip: "Admin Visit Detail",
+  // },
+  // analytics_dashboard: {
+  //   key: "analytics_dashboard",
+  //   label: "Analytics Dashboard",
+  //   iconUrl: "/sidebar/analytics-dashboard.svg",
+  //   path: pagesInfo.analytics_dashboard.path,
+  //   tooltip: "Analytics Dashboard",
+  // },
+
+  // employee_dashboard: {
+  //   key: "employee_dashboard",
+  //   label: "Employee Dashboard",
+  //   iconUrl: "/sidebar/salesOrder.svg",
+  //   path: pagesInfo.employee_dashboard.path,
+  //   tooltip: "Employee Dashboard",
+  // },
+  leads: {
+    key: "leads",
+    label: "Leads",
+    iconUrl: "/sidebar/leads.svg",
+    path: pagesInfo.leads.path,
+    tooltip: "Leads",
+  },
+  // emailtemplates: {
+  //   key: "emailtemplates",
+  //   label: "Email Templates",
+  //   iconUrl: "/sidebar/mail.svg",
+  //   path: pagesInfo.emailtemplates.path,
+  //   tooltip: "Email Templates",
+  // },
+  employees: {
+    key: "employees",
+    label: "Employees",
+    iconUrl: "/sidebar/meeting.svg",
+    path: pagesInfo.employees.path,
+    tooltip: "Employees",
+  },
+
+  sales_order: {
+    key: "sales_order",
+    label: "Sales Order",
+    iconUrl: "/sidebar/salesOrder.svg",
+    path: pagesInfo.orders.path,
+    tooltip: "Sales Order",
+  },
+  attendance: {
+    key: "attendance",
+    label: "Attendance",
+    iconUrl: "/sidebar/forceField.svg",
+    path: pagesInfo.attendance.path,
+    tooltip: "Attendance",
+  },
+  admin_visits: {
+    key: "admin_visits",
+    label: "Admin Visits",
+    iconUrl: "/sidebar/tracking.svg",
+    path: pagesInfo.admin_visits.path,
+    tooltip: "Admin Visits",
+  },
+  // tracking: {
+  //   key: "tracking",
+  //   label: "Tracking",
+  //   iconUrl: "/sidebar/tracking.svg",
+  //   path: pagesInfo.tracking.path,
+  //   tooltip: "Tracking",
+  // },
+  integrations: {
+    key: "integrations",
+    label: "Integrations",
+    iconUrl: "/sidebar/integrations.svg",
+    path: pagesInfo.integrations.path,
+    tooltip: "Integrations",
+  },
+  resources: {
+    key: "resources",
+    label: "Resources",
+    iconUrl: "/sidebar/analytics-dashboard.svg",
+    path: pagesInfo.resources.path,
+    tooltip: "Resources",
+  },
+  // settings: {
+  //   key: "settings",
+  //   label: "Settings",
+  //   iconUrl: "/sidebar/Setting.svg",
+  //   path: pagesInfo.leads.path,
+  //   tooltip: "Settings",
+  // },
+
+  logout: {
+    key: "logout",
+    label: "Logout",
+    iconUrl: "/sidebar/logout.svg",
+    path: "/logout",
+    tooltip: "Logout",
+  },
+};
+
+export const publicPagesPath = [
+  pagesInfo.privacy.path,
+  pagesInfo.terms.path,
+  pagesInfo.data_deletion.path,
+];

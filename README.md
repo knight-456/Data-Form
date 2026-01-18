@@ -1,34 +1,36 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Beyond The Limits 🚀
+
+A unified product ecosystem platform - your gateway to limitless possibilities.
+
+## Vision
+
+Beyond The Limits is an enterprise-grade platform housing multiple applications under one roof, similar to how Google Workspace or Microsoft 365 operates. Each product is designed to work seamlessly together while maintaining its own unique functionality.
+
+## Products (Coming Soon)
+
+- 📦 **BTL Products** - Inventory & Product Management
+- 📄 **BTL Docs** - Document Creation & Editing
+- ☁️ **BTL Drive** - Cloud File Storage
+- 📊 **BTL Analytics** - Business Intelligence
+- 🤖 **BTL AI** - AI-Powered Assistant
+- And many more...
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to see the platform.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tech Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Framework**: Next.js 15
+- **Styling**: Tailwind CSS with CSS Variables (fully customizable themes)
+- **State**: Redux Toolkit
+- **UI Components**: Radix UI + shadcn/ui
 
-## Learn More
+## Theming
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Netlify
-
-Site url: https://6742ca25e7dc860008092c79--jashwantform.netlify.app
+The platform supports user-customizable themes through CSS variables. Users can personalize their color scheme, and the entire application adapts instantly.
