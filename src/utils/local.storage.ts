@@ -1,7 +1,7 @@
 import { clearAllCookies } from "./local.cookies";
 import { pagesInfo } from "./pages-info.utils";
 import { localsConst } from "./utils.data";
-import { getBaseDomain } from "./subdomain.utils";
+// import { getBaseDomain } from "./subdomain.utils";
 
 type LocalStorageKey = string;
 
@@ -65,20 +65,5 @@ export const handleLogoutSession = async () => {
   // LocalStorageUtil.clear();
   clearAllCookies();
 
-  // Redirect to base domain login page
-  const baseDomain = getBaseDomain()?.replace(/^\./, ""); // Remove leading dot
-
-  if (baseDomain) {
-    // Redirect to base domain (without subdomain)
-    const protocol = window.location.protocol;
-    const port = window.location.port;
-    let baseUrl = `${protocol}//${baseDomain}`;
-    if (port && port !== "80" && port !== "443") {
-      baseUrl += `:${port}`;
-    }
-    window.location.href = `${baseUrl}${pagesInfo.login.path}`;
-  } else {
-    // Fallback for localhost
-    window.location.href = pagesInfo.login.path;
-  }
+   window.location.href = pagesInfo.login.path;
 };

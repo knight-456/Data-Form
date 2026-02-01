@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import toast from "react-hot-toast";
-import WarningAmberOutlinedIcon from "@mui/icons-material/WarningAmberOutlined";
+import { MessageCircleWarning } from "lucide-react";
 
 import { pagesInfo } from "@/utils/pages-info.utils";
 import { handleLogoutSession } from "@/utils/local.storage";
@@ -58,7 +58,7 @@ export default function UnauthorizedPage() {
                 d="M12 9v2m0 4h.01M12 5c1.657 0 3 1.343 3 3v2c0 1.657-1.343 3-3 3s-3-1.343-3-3V8c0-1.657 1.343-3 3-3zM6.938 17h10.124M4 21h16"
               />
             </svg> */}
-          <WarningAmberOutlinedIcon fontSize="large" />
+          <MessageCircleWarning fontSize="large" />
         </div>
         <h1 className="text-2xl font-semibold text-gray-800">Access Denied</h1>
         <p className="mt-2 text-gray-600 text-sm">

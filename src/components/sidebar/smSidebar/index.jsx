@@ -16,9 +16,8 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 
-import { sidebarLinks } from "../data";
 import { useAuth } from "@/provider/auth.provider";
-import { pagesInfo } from "@/utils/pages-info.utils";
+import { pagesInfo, sidebarNavLinkConsts } from "@/utils/pages-info.utils";
 
 import { cn } from "@/lib/utils";
 
@@ -26,8 +25,8 @@ const ChildMenuItem = ({ sidebarItem }) => {
   const pathname = usePathname();
 
   const isActiveLink = useMemo(
-    () => pathname.match(sidebarItem?.regex),
-    [pathname, sidebarItem?.regex],
+    () => pathname.startsWith(sidebarItem?.path),
+    [pathname, sidebarItem?.path],
   );
 
   const [toggleItem, setToggleItem] = useState(isActiveLink);
@@ -47,11 +46,11 @@ const ChildMenuItem = ({ sidebarItem }) => {
         <div className={"flex flex-nowrap items-center justify-start gap-2"}>
           <sidebarItem.icon size={20} />
           <span className={cn("text-left whitespace-nowrap truncate")}>
-            {sidebarItem?.name}
+            {sidebarItem?.label}
           </span>
         </div>
       </Link>
-      {!!Object.keys(sidebarItem?.child)?.length && (
+      {!!(sidebarItem?.child && Object.keys(sidebarItem.child).length) && (
         <button
           className={cn(
             "absolute top-0 right-2 shadow-lg rounded-full group-hover:bg-background",
@@ -71,24 +70,26 @@ const ChildMenuItem = ({ sidebarItem }) => {
           />
         </button>
       )}
-      {toggleItem && !!Object.keys(sidebarItem?.child)?.length && (
-        <ChildMenu key={sidebarItem.key} childItems={sidebarItem?.child} />
-      )}
+      {toggleItem &&
+        !!(sidebarItem?.child && Object.keys(sidebarItem.child).length) && (
+          <ChildMenu key={sidebarItem.key} childItems={sidebarItem?.child} />
+        )}
     </div>
   );
 };
 
 const ChildMenu = ({ childItems }) => {
   const { user } = useAuth();
+  
   return (
     <div className={"w-full space-y-2 border-l pl-2"}>
       {Object.values(childItems).map((sidebarItem) => {
-        const pageInfo = pagesInfo[sidebarItem.key];
+        const linkInfo = pagesInfo[sidebarItem.key];
         if (
-          pageInfo &&
-          pageInfo.role &&
+          linkInfo &&
+          linkInfo.role &&
           user &&
-          !pageInfo.role.includes(user.role)
+          !linkInfo.role.includes(user.role)
         ) {
           return null;
         }
@@ -114,21 +115,19 @@ const SmSideBarView = () => {
             <div
               className={"flex flex-nowrap items-center justify-start gap-2"}
             >
-              <div className={"w-8 h-8 overflow-hidden rounded"}>
-                <img
-                  src={
-                    "https://static.vecteezy.com/system/resources/thumbnails/011/883/295/small/modern-graphic-troly-colorful-logo-good-for-technology-logo-e-commerce-logo-online-shop-logo-company-logo-dummy-logo-bussiness-logo-free-vector.jpg"
-                  }
-                  alt={"DKC"}
-                  className={"w-full h-full object-cover"}
-                />
+              <div
+                className={
+                  "w-8 h-8 overflow-hidden rounded bg-primary flex items-center justify-center text-primary-foreground font-bold"
+                }
+              >
+                {"B"}
               </div>
               <span
                 className={cn(
                   "font-semibold text-base whitespace-nowrap capitalize",
                 )}
               >
-                {"DKC"}
+                {"Beyond The Limits"}
               </span>
             </div>
             <SheetClose
@@ -141,7 +140,7 @@ const SmSideBarView = () => {
           </div>
         </SheetHeader>
         <SheetDescription className="w-full p-2">
-          <ChildMenu childItems={sidebarLinks} />
+          <ChildMenu childItems={sidebarNavLinkConsts} />
         </SheetDescription>
       </SheetContent>
       <div className="sticky top-0 z-50 h-screen flex flex-row border-r shadow">

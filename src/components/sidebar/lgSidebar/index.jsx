@@ -13,9 +13,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-import { sidebarLinks } from "../data";
 import { useAuth } from "@/provider/auth.provider";
-import { pagesInfo } from "@/utils/pages-info.utils";
+import { pagesInfo, sidebarNavLinkConsts } from "@/utils/pages-info.utils";
 import { cn } from "@/lib/utils";
 
 const LgSideBarView = () => {
@@ -41,22 +40,20 @@ const LgSideBarView = () => {
             <div
               className={"flex flex-nowrap items-center justify-start gap-2"}
             >
-              <div className={"w-8 h-8 overflow-hidden rounded"}>
-                <img
-                  src={
-                    "https://static.vecteezy.com/system/resources/thumbnails/011/883/295/small/modern-graphic-troly-colorful-logo-good-for-technology-logo-e-commerce-logo-online-shop-logo-company-logo-dummy-logo-bussiness-logo-free-vector.jpg"
-                  }
-                  alt={"Dkc-exports"}
-                  className={"w-full h-full object-cover"}
-                />
+              <div
+                className={
+                  "w-8 h-8 overflow-hidden rounded bg-primary flex items-center justify-center text-primary-foreground font-bold"
+                }
+              >
+                {"B"}
               </div>
-              <span
+              {/* <span
                 className={cn(
                   "font-semibold text-base whitespace-nowrap capitalize",
                 )}
               >
-                {"DKC"}
-              </span>
+                {"Beyond The Limits"}
+              </span> */}
             </div>
             <TooltipProvider>
               <Tooltip>
@@ -81,22 +78,22 @@ const LgSideBarView = () => {
           </div>
         </div>
         <div className={"w-full space-y-2 p-2"}>
-          {Object.values(sidebarLinks).map((sidebarItem) => {
-            const pageInfo = pagesInfo[sidebarItem.key];
+          {Object.values(sidebarNavLinkConsts).map((sidebarItem) => {
+            const linkInfo = pagesInfo[sidebarItem.key];
             if (
-              pageInfo &&
-              pageInfo.role &&
+              linkInfo &&
+              linkInfo.role &&
               user &&
-              !pageInfo.role.includes(user.role)
+              !linkInfo.role.includes(user.role)
             ) {
               return null;
             }
             return (
               <Link
-                key={sidebarItem.key}
+                key={sidebarItem?.key}
                 className={cn(
                   "w-full flex items-center justify-between gap-2 group cursor-pointer p-2 rounded-md hover:bg-muted",
-                  pathname.match(sidebarItem?.regex)
+                  pathname.startsWith(sidebarItem?.path)
                     ? "bg-primary hover:bg-primary text-primary-foreground hover:text-primary-foreground"
                     : "",
                 )}
@@ -109,12 +106,12 @@ const LgSideBarView = () => {
                 >
                   <sidebarItem.icon size={20} />
                   <span className={cn("text-left whitespace-nowrap truncate")}>
-                    {sidebarItem?.name}
+                    {linkInfo?.label}
                   </span>
                 </div>
-                {!!Object.keys(sidebarItem?.child)?.length && (
-                  <ChevronRight size={20} />
-                )}
+                {!!(
+                  sidebarItem?.child && Object.keys(sidebarItem.child).length
+                ) && <ChevronRight size={20} />}
               </Link>
             );
           })}
