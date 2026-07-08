@@ -6,7 +6,14 @@ import { authUrlEnums } from "@/services/auth/auth.const";
 
 import { setCookie, getCookie } from "@/utils/local.cookies";
 import { handleLogoutSession } from "@/utils/local.storage";
-import { getCookieUniversal } from "@/utils/server.utils";
+const getUniversalCookieValue = async (key: string): Promise<string | undefined> => {
+  if (typeof window !== "undefined") {
+    return getCookie(key);
+  } else {
+    const { getCookieUniversal } = await import("@/utils/server.utils");
+    return getCookieUniversal(key);
+  }
+};
 
 export const getAccessToken = async () => {
   try {
@@ -32,7 +39,7 @@ export const getAccessToken = async () => {
 export const refreshToken = async () => {
   try {
     // const refresh_token = getCookie(cookiesConst.leads_force_refresh_token.key);
-    const refresh_token = await getCookieUniversal(
+    const refresh_token = await getUniversalCookieValue(
       cookiesConst.leads_force_refresh_token.key,
     );
     // const refresh_token = getCookie(cookiesConst.refresh_token.key);
@@ -79,7 +86,7 @@ export const requestInterceptor = async (config: any) => {
     config.headers.Authorization = `Bearer ${access_token}`;
   } else {
     // const refresh_token = getCookie(cookiesConst.leads_force_refresh_token.key);
-    const refresh_token = await getCookieUniversal(
+    const refresh_token = await getUniversalCookieValue(
       cookiesConst.leads_force_refresh_token.key,
     );
     // const refresh_token = getCookie(cookiesConst.refresh_token.key);
@@ -111,7 +118,7 @@ export const requestInterceptor = async (config: any) => {
 export const responseInterceptor = async (instance: any, error: any) => {
   const { response, config: originalRequest } = error;
   // const refresh_token = getCookie(cookiesConst.leads_force_refresh_token.key);
-  const refresh_token = await getCookieUniversal(
+  const refresh_token = await getUniversalCookieValue(
     cookiesConst.leads_force_refresh_token.key,
   );
   // const refresh_token = getCookie(cookiesConst.refresh_token.key);

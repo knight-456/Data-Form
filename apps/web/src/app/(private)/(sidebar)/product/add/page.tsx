@@ -58,8 +58,8 @@ const ProductForm = () => {
     defaultValues: {
       startDate: new Date(),
       endDate: new Date(),
-      productionPerDayPerMachine: null,
-      totalOrderQuantity: null,
+      productionPerDayPerMachine: "" as any,
+      totalOrderQuantity: "" as any,
       fabrics: [],
       isChinaFabricPresent: false,
       chinaFabric: [],
@@ -92,11 +92,12 @@ const ProductForm = () => {
         });
         const updatedData: any = {
           ...data,
-          id: productList?.data?.length + 1,
+          id: (productList?.data?.length || 0) + 1,
           thumbnailUrl:
             "https://fastly.picsum.photos/id/7/367/267.jpg?hmac=7scfIEZwG08cgYCiNifF6mEOaFpXAt2N-Q7oaA37ZQk",
         };
         dispatcher(setAddProductDetail({ data: updatedData }));
+        dispatcher(setProductList({ isLoading: false }));
         reset();
         router.push("/product");
         setOpen(
@@ -114,7 +115,6 @@ const ProductForm = () => {
         variant: "destructive",
         description: error?.message || "Something went wrong!",
       });
-    } finally {
       dispatcher(setProductList({ isLoading: false }));
     }
   };

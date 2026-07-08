@@ -1,4 +1,8 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Next.js
+.next/
+out/
+build
+dist
 
 # dependencies
 node_modules
@@ -7,11 +11,6 @@ node_modules
 
 # testing
 coverage
-
-# next.js
-.next/
-out/
-build
 
 # misc
 .DS_Store
@@ -24,6 +23,7 @@ ts-debug.log*
 
 # local env files
 .env*.local
+.env
 
 # vercel
 .vercel
@@ -31,6 +31,3 @@ ts-debug.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
-
-# turborepo
-.turbo

@@ -103,7 +103,7 @@ export const pagesInfo = {
     key: "data_deletion",
     label: "Data Deletion",
     path: "/data_deletion",
-    regex: /^\/terms$/,
+    regex: /^\/data_deletion$/,
     role: Object.values(userRoleEnums).map((role) => role.value),
     child: {},
   },

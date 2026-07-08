@@ -28,24 +28,24 @@ const ProductPage = () => {
 
         try {
             setTimeout(() => {
-                // const existingData = dummyData || [];
-                // const newData = addProductDetail?.data || {};
+                const existingData = dummyData || [];
+                const newData = addProductDetail?.data;
 
-                // let allProducts = []
-                // if (newData) {
-                //     allProducts = [...existingData, newData];
-                // }
-                // const uniqueProducts = Array.from(
-                //     new Map(allProducts.map((product) => [product.id, product])).values()
-                // );
+                const allProducts = [...existingData];
+                if (newData && newData.id) {
+                    allProducts.push(newData);
+                }
+                const uniqueProducts = Array.from(
+                    new Map(allProducts.map((product) => [product.id, product])).values()
+                );
 
-                dispatcher(setProductList({ data: dummyData }));
+                dispatcher(setProductList({ data: uniqueProducts }));
+                dispatcher(setProductList({ isLoading: false }));
             }, 1000)
 
         } catch (error: any) {
             console.error(error?.message || "Something went wrong!")
-        } finally {
-            dispatcher(setProductList({ isLoading: false }))
+            dispatcher(setProductList({ isLoading: false }));
         }
     }
 
