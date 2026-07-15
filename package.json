@@ -3,6 +3,10 @@
   "version": "0.0.0",
   "private": true,
   "packageManager": "npm@10.9.4",
+  "engines": {
+    "node": ">=20.9.0",
+    "npm": ">=10.0.0"
+  },
   "scripts": {
     "build": "turbo run build --ui=stream --no-update-notifier",
     "dev": "turbo run dev",
