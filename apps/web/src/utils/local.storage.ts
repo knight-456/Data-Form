@@ -57,7 +57,7 @@ export const LocalStorageUtil = {
 export const getLoggedInUser = () => {
   const storedUser = localStorage.getItem(localsConst.leads_force_user.key);
 
-  const user: User | null = !!storedUser ? JSON.parse(storedUser) : null;
+  const user: User | null = storedUser ? JSON.parse(storedUser) : null;
   return user;
 };
 

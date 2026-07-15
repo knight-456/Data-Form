@@ -46,24 +46,24 @@ const SubmittedFormDetail = ({ setClose }: { setClose: () => void }) => {
             addProductDetail?.data?.majorFabric as keyof typeof fabricNameEnums
           ]?.label || "None"}
         </span>
-        {!!addProductDetail?.data?.trims?.length && (
+        {Boolean(addProductDetail?.data?.trims?.length) && (
           <>
             <span className={"col-span-full md:col-span-1"}>{"Trims"}</span>
             <span className={"col-span-full md:col-span-1"}>
               {addProductDetail?.data?.trims
-                ?.map((item) => item.label)
+                ?.map((item: { label: string }) => item.label)
                 ?.join(", ") || "N/A"}
             </span>
           </>
         )}
-        {!!addProductDetail?.data?.accessories && (
+        {Boolean(addProductDetail?.data?.accessories) && (
           <>
             <span className={"col-span-full md:col-span-1"}>
               {"Accessories"}
             </span>
             <span className={"col-span-full md:col-span-1"}>
               {addProductDetail?.data?.accessories
-                ?.map((item) => item?.label)
+                ?.map((item: { label?: string }) => item?.label)
                 ?.join(", ") || "N/A"}
             </span>
           </>

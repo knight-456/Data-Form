@@ -115,7 +115,7 @@ const AddFabricDetail = ({
   const fabricNameList = useMemo(() => {
     let filteredFabricNames = Object.values(fabricNameEnums) || [];
 
-    if (!!fabricList?.data?.length) {
+    if (fabricList?.data?.length) {
       filteredFabricNames = filteredFabricNames.filter((item) => {
         const isFabricNameUsed = fabricList?.data?.some(
           (fabricItem: any) => fabricItem?.fabricName === item?.key
@@ -146,7 +146,7 @@ const AddFabricDetail = ({
     }
 
     if (totalOrderQuantity) {
-      if (!!getValues("quantity")?.length) {
+      if (getValues("quantity")?.length) {
         const totalQuantity = getValues("quantity").reduce((acc, curr) => {
           return acc + curr;
         }, 0);
@@ -195,7 +195,7 @@ const AddFabricDetail = ({
         });
         dispatcher(
           setFabricList({
-            data: fabricList?.data ? [data, ...fabricList?.data] : [data],
+            data: [data, ...(fabricList?.data ?? [])],
           })
         );
         setClose();
@@ -241,7 +241,7 @@ const AddFabricDetail = ({
                             "w-full flex items-center justify-between gap-3"
                           }
                         >
-                          {!!value
+                          {value
                             ? fabricNameEnums[
                                 value as keyof typeof fabricNameEnums
                               ]?.label
@@ -336,7 +336,7 @@ const AddFabricDetail = ({
                 </div>
                 <FormControl>
                   <div className={"inline-flex flex-wrap items-center gap-3"}>
-                    {!!value?.length && (
+                    {Boolean(value?.length) && (
                       <div
                         className={"inline-flex flex-wrap items-center gap-3"}
                       >

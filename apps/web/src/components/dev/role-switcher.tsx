@@ -6,6 +6,7 @@ import { userRoleEnums } from '@/services/local/local.const'
 export const RoleSwitcher = () => {
     const { user, login } = useAuth()
 
+    if (process.env.NEXT_PUBLIC_ENABLE_ROLE_SWITCHER !== 'true') return null
     if (!user) return null
 
     return (

@@ -28,7 +28,7 @@ const LgSideBarView = () => {
       <div
         className={cn(
           "h-screen overflow-y-auto scrollbar-thin transition-all ease-in-out duration-300",
-          !!isExpand ? "visible w-[14rem]" : "invisible w-0",
+          isExpand ? "visible w-[14rem]" : "invisible w-0",
         )}
       >
         <div className={"w-full h-16 p-2"}>
@@ -120,7 +120,7 @@ const LgSideBarView = () => {
       <div
         className={cn(
           "relative transition-all ease-in-out duration-100",
-          !!isExpand ? "invisible w-0" : "visible w-full delay-100",
+          isExpand ? "invisible w-0" : "visible w-full delay-100",
         )}
       >
         <TooltipProvider>

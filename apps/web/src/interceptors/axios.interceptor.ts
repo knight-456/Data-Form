@@ -18,7 +18,7 @@ const getUniversalCookieValue = async (key: string): Promise<string | undefined>
 export const getAccessToken = async () => {
   try {
     const response = await refreshToken();
-    if (!!response?.access_token) {
+    if (response?.access_token) {
       setCookie(
         cookiesConst.leads_force_access_token.key,
         response?.access_token,

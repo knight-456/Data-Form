@@ -39,7 +39,7 @@ const ChinaFabric = () => {
         key: fabricItem?.fabricName,
       }))
       ?.filter((item: any) => item.key !== getValues("majorFabric"));
-    if (!!fabricList?.data?.length) {
+    if (fabricList?.data?.length) {
       options = [...options, ...availableFabrics];
     }
 
@@ -62,7 +62,7 @@ const ChinaFabric = () => {
             ?.map((chinaItem) => chinaItem?.key)
             ?.includes(item.key)
       );
-    if (!!fabricList?.data?.length) {
+    if (fabricList?.data?.length) {
       options = [...options, ...availableFabrics];
     }
 
@@ -105,7 +105,7 @@ const ChinaFabric = () => {
           </FormItem>
         )}
       />
-      {!!getValues("isChinaFabricPresent") && (
+      {Boolean(getValues("isChinaFabricPresent")) && (
         <FormField
           control={control}
           name={"chinaFabric"}
@@ -120,7 +120,7 @@ const ChinaFabric = () => {
               </FormLabel>
               <FormControl>
                 <div className={"w-full inline-flex items-center gap-3"}>
-                  {!!value?.length && (
+                  {Boolean(value?.length) && (
                     <div className={"inline-flex items-center gap-3"}>
                       {value?.map((chinaItem) => (
                         <div

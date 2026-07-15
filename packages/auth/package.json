@@ -1,5 +1,5 @@
 {
-  "name": "@repo/ui",
+  "name": "@repo/auth",
   "version": "0.0.0",
   "private": true,
   "type": "module",
@@ -20,11 +20,7 @@
     "type-check": "tsc -p tsconfig.json --noEmit",
     "test": "npm run type-check"
   },
-  "dependencies": {
-    "react": "^19.2.0"
-  },
   "devDependencies": {
-    "@types/react": "^19",
     "typescript": "^5.7.3"
   }
 }

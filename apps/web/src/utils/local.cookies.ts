@@ -1,10 +1,18 @@
 import { setCookie, getCookie } from "cookies-next/client";
 import { cookiesConst, thirtyDaysInSeconds } from "./utils.data";
 
+type CookieOptions = {
+  path?: string;
+  maxAge?: number;
+  secure?: boolean;
+  sameSite?: "lax" | "strict" | "none";
+  domain?: string;
+};
+
 type TCookiesProps = {
   name: string;
   value: string;
-  options?: any;
+  options?: CookieOptions;
 }[];
 
 // Function to clear all cookies
@@ -28,7 +36,7 @@ function clearAllCookies() {
 const getAndSetCookie = () => {
   const refresh_token = getCookie(cookiesConst.leads_force_refresh_token.key);
   // const refresh_token = getCookie(cookiesConst.refresh_token.key);
-  if (!!refresh_token) {
+  if (refresh_token) {
     setCookie(cookiesConst.leads_force_refresh_token.key, refresh_token, {
       maxAge: thirtyDaysInSeconds,
       path: "/",
@@ -47,7 +55,7 @@ const getAndSetCookie = () => {
  */
 export const setMultipleCookies = (
   cookies: TCookiesProps = [],
-  useSubdomainSharing: boolean = true
+  _useSubdomainSharing: boolean = true
 ) => {
   // const baseDomain = useSubdomainSharing ? getBaseDomain() : undefined;
   const isLocalDev =
@@ -62,7 +70,6 @@ export const setMultipleCookies = (
       // For local HTTP development, explicitly set secure:false and sameSite:'lax'
       ...(isLocalDev && { secure: false, sameSite: "lax" as const }),
     };
-    console.log("[DEBUG] Setting cookie:", cookieItem?.name, "with options:", options);
     setCookie(cookieItem?.name, cookieItem?.value, options);
   });
 };

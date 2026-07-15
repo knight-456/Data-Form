@@ -2,16 +2,20 @@
   "name": "beyond-the-limits-monorepo",
   "version": "0.0.0",
   "private": true,
+  "packageManager": "npm@10.9.4",
   "scripts": {
-    "build": "turbo run build",
+    "build": "turbo run build --ui=stream --no-update-notifier",
     "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "lint": "turbo run lint --ui=stream --no-update-notifier",
+    "type-check": "turbo run type-check --ui=stream --no-update-notifier",
+    "test": "turbo run test --ui=stream --no-update-notifier",
+    "check": "turbo run lint type-check test --ui=stream --no-update-notifier",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,md,json}\""
   },
   "devDependencies": {
     "prettier": "^3.0.3",
     "syncpack": "^15.3.2",
-    "turbo": "^1.10.14"
+    "turbo": "^2.10.4"
   },
   "workspaces": [
     "apps/*",

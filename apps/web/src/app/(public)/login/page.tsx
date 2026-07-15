@@ -7,18 +7,22 @@ import { Eye, EyeOff, Rocket, ArrowRight, Mail, Lock } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { useAuth } from '@/provider/auth.provider';
+import { userRoleEnums } from '@/services/local/local.const';
 
 const LoginPage = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const { login } = useAuth();
 
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
         setIsLoading(true);
-        // Simulate login
+
         setTimeout(() => {
+            login(userRoleEnums.admin.value, email || 'Demo User');
             setIsLoading(false);
             window.location.href = '/dashboard';
         }, 1500);
