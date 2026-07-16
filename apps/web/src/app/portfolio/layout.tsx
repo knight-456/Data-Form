@@ -1,21 +1,24 @@
 import type { Metadata } from "next";
+import { Plus_Jakarta_Sans } from "next/font/google";
+
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Jashwant Rana — Senior Software Engineer",
   description:
     "Portfolio of Jashwant Rana, Senior Software Engineer specializing in React.js, Next.js, React Native, SaaS platforms, dashboards and mobile ecosystems.",
-  openGraph: {
-    title: "Jashwant Rana — Senior Software Engineer",
-    description:
-      "Senior Software Engineer specializing in React.js, Next.js, React Native, SaaS platforms, dashboards and mobile ecosystems.",
-    type: "website",
-    url: "https://ranajashwant.netlify.app/portfolio",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Jashwant Rana — Senior Software Engineer",
-    description:
-      "Portfolio of Jashwant Rana. Senior Software Engineer building modern web and mobile products.",
+  robots: {
+    index: false,
+    follow: false,
+    nocache: true,
+    googleBot: {
+      index: false,
+      follow: false,
+    },
   },
 };
 
@@ -24,5 +27,5 @@ export default function PortfolioLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <>{children}</>;
+  return <div className={jakarta.className}>{children}</div>;
 }
