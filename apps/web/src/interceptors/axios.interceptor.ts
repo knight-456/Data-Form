@@ -20,7 +20,7 @@ export const getAccessToken = async () => {
     const response = await refreshToken();
     if (response?.access_token) {
       setCookie(
-        cookiesConst.leads_force_access_token.key,
+        cookiesConst.btl_access_token.key,
         response?.access_token,
         {
           maxAge: accessTokenValidityInSeconds,
@@ -38,9 +38,9 @@ export const getAccessToken = async () => {
 
 export const refreshToken = async () => {
   try {
-    // const refresh_token = getCookie(cookiesConst.leads_force_refresh_token.key);
+    // const refresh_token = getCookie(cookiesConst.btl_refresh_token.key);
     const refresh_token = await getUniversalCookieValue(
-      cookiesConst.leads_force_refresh_token.key,
+      cookiesConst.btl_refresh_token.key,
     );
     // const refresh_token = getCookie(cookiesConst.refresh_token.key);
 
@@ -79,22 +79,22 @@ export const requestInterceptor = async (config: any) => {
     return config;
   }
 
-  // const access_token = getCookie(cookiesConst.leads_force_access_token.key);
-  const access_token = getCookie(cookiesConst.leads_force_access_token.key);
+  // const access_token = getCookie(cookiesConst.btl_access_token.key);
+  const access_token = getCookie(cookiesConst.btl_access_token.key);
 
   if (access_token) {
     config.headers.Authorization = `Bearer ${access_token}`;
   } else {
-    // const refresh_token = getCookie(cookiesConst.leads_force_refresh_token.key);
+    // const refresh_token = getCookie(cookiesConst.btl_refresh_token.key);
     const refresh_token = await getUniversalCookieValue(
-      cookiesConst.leads_force_refresh_token.key,
+      cookiesConst.btl_refresh_token.key,
     );
     // const refresh_token = getCookie(cookiesConst.refresh_token.key);
     if (refresh_token) {
       try {
         const { access_token: newAccessToken } = await refreshToken();
         if (typeof window !== "undefined") {
-          setCookie(cookiesConst.leads_force_access_token.key, newAccessToken, {
+          setCookie(cookiesConst.btl_access_token.key, newAccessToken, {
             maxAge: accessTokenValidityInSeconds,
           });
         }
@@ -117,9 +117,9 @@ export const requestInterceptor = async (config: any) => {
 
 export const responseInterceptor = async (instance: any, error: any) => {
   const { response, config: originalRequest } = error;
-  // const refresh_token = getCookie(cookiesConst.leads_force_refresh_token.key);
+  // const refresh_token = getCookie(cookiesConst.btl_refresh_token.key);
   const refresh_token = await getUniversalCookieValue(
-    cookiesConst.leads_force_refresh_token.key,
+    cookiesConst.btl_refresh_token.key,
   );
   // const refresh_token = getCookie(cookiesConst.refresh_token.key);
 
@@ -144,7 +144,7 @@ export const responseInterceptor = async (instance: any, error: any) => {
       }
 
       if (typeof window !== "undefined") {
-        setCookie(cookiesConst.leads_force_access_token.key, access_token, {
+        setCookie(cookiesConst.btl_access_token.key, access_token, {
           maxAge: accessTokenValidityInSeconds,
         });
       }

@@ -34,10 +34,10 @@ function clearAllCookies() {
 }
 
 const getAndSetCookie = () => {
-  const refresh_token = getCookie(cookiesConst.leads_force_refresh_token.key);
+  const refresh_token = getCookie(cookiesConst.btl_refresh_token.key);
   // const refresh_token = getCookie(cookiesConst.refresh_token.key);
   if (refresh_token) {
-    setCookie(cookiesConst.leads_force_refresh_token.key, refresh_token, {
+    setCookie(cookiesConst.btl_refresh_token.key, refresh_token, {
       maxAge: thirtyDaysInSeconds,
       path: "/",
       secure: true,

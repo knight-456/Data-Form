@@ -20,7 +20,7 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<User | null>(null)
 
     useEffect(() => {
-        const storedUser = window.localStorage.getItem(localsConst.leads_force_user.key)
+        const storedUser = window.localStorage.getItem(localsConst.btl_user.key)
 
         if (!storedUser) return
 
@@ -28,20 +28,20 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             const parsedUser = JSON.parse(storedUser) as User
             setUser(parsedUser)
         } catch {
-            window.localStorage.removeItem(localsConst.leads_force_user.key)
+            window.localStorage.removeItem(localsConst.btl_user.key)
         }
     }, [])
 
     const login = (role: string, name = 'Demo User') => {
         const nextUser = { role, name }
-        window.localStorage.setItem(localsConst.leads_force_user.key, JSON.stringify(nextUser))
-        window.localStorage.setItem(localsConst.leads_force_role.key, role)
+        window.localStorage.setItem(localsConst.btl_user.key, JSON.stringify(nextUser))
+        window.localStorage.setItem(localsConst.btl_role.key, role)
         setUser(nextUser)
     }
 
     const logout = () => {
-        window.localStorage.removeItem(localsConst.leads_force_user.key)
-        window.localStorage.removeItem(localsConst.leads_force_role.key)
+        window.localStorage.removeItem(localsConst.btl_user.key)
+        window.localStorage.removeItem(localsConst.btl_role.key)
         setUser(null)
     }
 

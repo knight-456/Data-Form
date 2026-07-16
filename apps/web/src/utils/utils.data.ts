@@ -1,9 +1,9 @@
 export const cookiesConst = {
-  leads_force_refresh_token: {
-    key: "leads_force_refresh_token",
+  btl_refresh_token: {
+    key: "btl_refresh_token",
   },
-  leads_force_access_token: {
-    key: "leads_force_access_token",
+  btl_access_token: {
+    key: "btl_access_token",
   },
   refresh_token: {
     key: "refresh_token",
@@ -11,11 +11,11 @@ export const cookiesConst = {
 };
 
 export const localsConst = {
-  leads_force_role: {
-    key: "leads_force_role",
+  btl_role: {
+    key: "btl_role",
   },
-  leads_force_user: {
-    key: "leads_force_user",
+  btl_user: {
+    key: "btl_user",
   },
   notification_permission_request: {
     key: "notification_permission_request",
