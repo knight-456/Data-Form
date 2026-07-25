@@ -71,14 +71,13 @@ export function ExperienceSection() {
         
         {experience.map((job, index) => (
           <article 
-            key={`${job.company}-${job.period}`} 
+            key={`${job.company}-${job.period}-${job?.id}`} 
             className={`${panelClass} ${revealClass} relative group`}
             style={{ transitionDelay: `${(index + 1) * 100}ms` }}
           >
-            {/* Timeline dot */}
             <div 
               ref={(el) => { dotRefs.current[index] = el; }}
-              className="absolute top-10 -left-[2.3rem] w-3.5 h-3.5 rounded-full bg-brand ring-4 ring-background shadow-[0_0_0_4px_rgba(var(--brand-rgb,59,130,246),0.15)] hidden lg:block z-10 scale-0 opacity-0 transition-all duration-500 ease-out" 
+              className="absolute top-10 -left-[2.3rem] w-3.5 h-3.5 rounded-full bg-brand ring-4 ring-background shadow-[0_0_0_4px_hsla(var(--brand),0.15)] hidden lg:block z-10 scale-0 opacity-0 transition-all duration-500 ease-out" 
               aria-hidden="true" 
             />
             

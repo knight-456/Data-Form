@@ -15,9 +15,23 @@ export function ParticleBackground() {
     canvas.height = height;
 
     const particles: Particle[] = [];
-    const particleCount = Math.min(width / 10, 80);
+    const particleCount = Math.min(width / 35, 25);
 
     const mouse = { x: -1000, y: -1000 };
+
+    let cachedBrandHsla = "rgba(37, 99, 235, 0.35)";
+    let cachedStrokeHsla = "rgba(37, 99, 235, 0.04)";
+
+    const updateCachedColors = () => {
+      const root = getComputedStyle(document.documentElement);
+      const brandColor = root.getPropertyValue("--brand").trim();
+      if (brandColor) {
+        cachedBrandHsla = `hsla(${brandColor}, 0.35)`;
+        cachedStrokeHsla = `hsla(${brandColor}, 0.04)`;
+      }
+    };
+
+    updateCachedColors();
 
     class Particle {
       x: number;
@@ -35,7 +49,7 @@ export function ParticleBackground() {
         this.baseY = this.y;
         this.vx = (Math.random() - 0.5) * 0.5;
         this.vy = (Math.random() - 0.5) * 0.5;
-        this.radius = Math.random() * 1.5 + 0.5;
+        this.radius = Math.random() * 0.8 + 0.3;
       }
 
       update() {
@@ -61,9 +75,7 @@ export function ParticleBackground() {
         if (!ctx) return;
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-        const root = getComputedStyle(document.documentElement);
-        const brandColor = root.getPropertyValue("--brand").trim();
-        ctx.fillStyle = brandColor ? `hsla(${brandColor}, 0.5)` : "rgba(37, 99, 235, 0.5)";
+        ctx.fillStyle = cachedBrandHsla;
         ctx.fill();
       }
     }
@@ -76,22 +88,20 @@ export function ParticleBackground() {
     function animate() {
       if (!ctx) return;
       ctx.clearRect(0, 0, width, height);
-      
+
       for (let i = 0; i < particles.length; i++) {
         particles[i].update();
         particles[i].draw();
       }
-      
-      const root = getComputedStyle(document.documentElement);
-      const brandColor = root.getPropertyValue("--brand").trim();
-      ctx.strokeStyle = brandColor ? `hsla(${brandColor}, 0.1)` : "rgba(37, 99, 235, 0.1)";
+
+      ctx.strokeStyle = cachedStrokeHsla;
       ctx.lineWidth = 0.5;
       for (let i = 0; i < particles.length; i++) {
         for (let j = i; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
           const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 100) {
+          if (dist < 75) {
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
@@ -109,13 +119,14 @@ export function ParticleBackground() {
       height = window.innerHeight;
       canvas.width = width;
       canvas.height = height;
+      updateCachedColors();
     };
 
     const handleMouseMove = (e: MouseEvent) => {
       mouse.x = e.clientX;
       mouse.y = e.clientY;
     };
-    
+
     const handleMouseLeave = () => {
       mouse.x = -1000;
       mouse.y = -1000;
@@ -133,5 +144,11 @@ export function ParticleBackground() {
     };
   }, []);
 
-  return <canvas ref={canvasRef} className="fixed inset-0 pointer-events-none z-[-1] opacity-60 dark:opacity-40 transition-opacity duration-1000" aria-hidden="true" />;
+  return (
+    <canvas
+      ref={canvasRef}
+      className="fixed inset-0 pointer-events-none z-[-1] opacity-35 dark:opacity-20 transition-opacity duration-1000"
+      aria-hidden="true"
+    />
+  );
 }

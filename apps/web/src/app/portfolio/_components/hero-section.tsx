@@ -1,13 +1,25 @@
-import { Download, Mail, MapPin, Phone } from "lucide-react";
+"use client";
+
+import { useState } from "react";
+import { Download, Mail, MapPin, Phone, Copy, Check, Sparkles } from "lucide-react";
 import { highlights, panelClass, profile, RESUME_URL, revealClass } from "../data";
 import Image from "next/image";
+import { SpotlightCard } from "./spotlight-card";
 
 export function HeroSection() {
+  const [copiedItem, setCopiedItem] = useState<string | null>(null);
+
+  const handleCopy = (text: string, label: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedItem(label);
+    setTimeout(() => setCopiedItem(null), 2000);
+  };
+
   return (
     <section className="mx-auto max-w-7xl px-4 pb-4 pt-10 sm:px-6 sm:pb-8 sm:pt-6 lg:px-8 relative z-10">
       <div className="grid gap-8 lg:grid-cols-[1.08fr_0.92fr] lg:items-end">
         <div className={`${revealClass}`}>
-          <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-brand mb-4 bg-brand/10 px-3 py-1.5 rounded-full border border-brand/20">
+          <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wide text-brand mb-4 bg-brand/10 px-3.5 py-1.5 rounded-full border border-brand/20 shadow-sm">
             <span className="w-2 h-2 rounded-full bg-brand animate-pulse shadow-[0_0_8px_var(--brand)]" />
             Available for senior frontend / mobile roles
           </div>
@@ -21,7 +33,7 @@ export function HeroSection() {
           </p>
 
           <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-            <a 
+            <a
               href={RESUME_URL}
               download="JASHWANT_RANA_RESUME.pdf"
               className="cursor-pointer inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-[14px] font-bold bg-brand text-primary-foreground transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_8px_24px_rgba(0,0,0,0.15)] shadow-lg hover:bg-brand/90"
@@ -29,48 +41,87 @@ export function HeroSection() {
               <Download className="w-5 h-5" />
               Download resume
             </a>
-            <a 
-              href={`mailto:${profile.email}`} 
+            <a
+              href={`mailto:${profile.email}`}
               className="cursor-pointer inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-[14px] font-bold text-foreground bg-background border border-border shadow-sm transition-all duration-300 hover:bg-muted hover:border-border hover:-translate-y-1"
             >
               Let&apos;s talk
               <Mail className="w-4 h-4" />
             </a>
+            {/* Try Live Platform CTA - Commented out for now
+            <a
+              href="/dashboard"
+              className="cursor-pointer inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-[14px] font-bold text-brand bg-brand/10 border border-brand/20 transition-all duration-300 hover:bg-brand hover:text-white hover:-translate-y-1"
+            >
+              <Sparkles className="w-4 h-4" />
+              Try Live Platform
+            </a>
+            */}
           </div>
         </div>
 
-        <aside className={`${panelClass} ${revealClass} delay-100 flex flex-col justify-between bg-gradient-to-br from-background/90 to-background/40 relative overflow-hidden`}>
+        <SpotlightCard
+          spotlightColor="rgba(59, 130, 246, 0.18)"
+          className={`${panelClass} ${revealClass} delay-100 flex flex-col justify-between bg-gradient-to-br from-background/90 to-background/40 relative overflow-hidden p-6 rounded-[24px]`}
+        >
           {/* Decorative background glow for card */}
           <div className="absolute top-0 right-0 w-32 h-32 bg-brand/5 blur-[50px] pointer-events-none" />
-          
+
           <div className="flex flex-col h-full relative z-10">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.2em] text-brand">
                   Resume snapshot
                 </p>
-                <h2 className="mt-2 text-2xl font-black tracking-tight text-foreground">{profile.name}</h2>
-                <p className="mt-1 text-sm text-muted-foreground font-medium">{profile.title}</p>
+                <h2 className="mt-2 text-2xl font-black tracking-tight text-foreground">
+                  {profile.name}
+                </h2>
+                <p className="mt-1 text-sm text-muted-foreground font-medium">
+                  {profile.title}
+                </p>
               </div>
               <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-brand/20 shadow-sm shrink-0">
-                <Image 
-                  src="/resume/jashwant_photo.webp" 
-                  alt="Jashwant Rana" 
-                  fill 
+                <Image
+                  src="/resume/jashwant_photo.webp"
+                  alt="Jashwant Rana"
+                  fill
+                  sizes="64px"
                   className="object-cover"
                 />
               </div>
             </div>
 
             <div className="mt-6 grid gap-2 flex-1">
-              <a href={`mailto:${profile.email}`} className="cursor-pointer flex items-center gap-3 text-[13px] font-semibold text-muted-foreground p-2.5 rounded-xl bg-background/50 border border-border/30 transition-all hover:text-foreground hover:border-border hover:bg-muted/80 hover:shadow-sm group">
-                <Mail className="w-4 h-4 group-hover:text-brand transition-colors" />
-                {profile.email}
-              </a>
-              <a href={`tel:${profile.phone}`} className="cursor-pointer flex items-center gap-3 text-[13px] font-semibold text-muted-foreground p-2.5 rounded-xl bg-background/50 border border-border/30 transition-all hover:text-foreground hover:border-border hover:bg-muted/80 hover:shadow-sm group">
-                <Phone className="w-4 h-4 group-hover:text-brand transition-colors" />
-                {profile.phone}
-              </a>
+              <button
+                onClick={() => handleCopy(profile.email, "email")}
+                className="cursor-pointer flex items-center justify-between text-[13px] font-semibold text-muted-foreground p-2.5 rounded-xl bg-background/50 border border-border/30 transition-all hover:text-foreground hover:border-border hover:bg-muted/80 hover:shadow-sm group text-left"
+              >
+                <span className="flex items-center gap-3">
+                  <Mail className="w-4 h-4 group-hover:text-brand transition-colors" />
+                  {profile.email}
+                </span>
+                {copiedItem === "email" ? (
+                  <Check className="w-3.5 h-3.5 text-emerald-500" />
+                ) : (
+                  <Copy className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                )}
+              </button>
+
+              <button
+                onClick={() => handleCopy(profile.phone, "phone")}
+                className="cursor-pointer flex items-center justify-between text-[13px] font-semibold text-muted-foreground p-2.5 rounded-xl bg-background/50 border border-border/30 transition-all hover:text-foreground hover:border-border hover:bg-muted/80 hover:shadow-sm group text-left"
+              >
+                <span className="flex items-center gap-3">
+                  <Phone className="w-4 h-4 group-hover:text-brand transition-colors" />
+                  {profile.phone}
+                </span>
+                {copiedItem === "phone" ? (
+                  <Check className="w-3.5 h-3.5 text-emerald-500" />
+                ) : (
+                  <Copy className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                )}
+              </button>
+
               <span className="flex items-center gap-3 text-[13px] font-semibold text-muted-foreground p-2.5 rounded-xl bg-background/50 border border-border/30">
                 <MapPin className="w-4 h-4" />
                 {profile.location}
@@ -79,14 +130,21 @@ export function HeroSection() {
 
             <div className="mt-6 grid grid-cols-3 gap-2">
               {highlights.map((item) => (
-                <div key={item.label} className="flex flex-col justify-center p-3 bg-background/60 rounded-xl border border-border/40 text-center shadow-sm hover:border-brand/30 transition-colors">
-                  <strong className="text-xl font-black leading-none text-foreground">{item.value}</strong>
-                  <span className="mt-1 text-[10px] font-semibold text-muted-foreground leading-tight">{item.label}</span>
+                <div
+                  key={item.label}
+                  className="flex flex-col justify-center p-3 bg-background/60 rounded-xl border border-border/40 text-center shadow-sm hover:border-brand/30 transition-colors"
+                >
+                  <strong className="text-xl font-black leading-none text-foreground">
+                    {item.value}
+                  </strong>
+                  <span className="mt-1 text-[10px] font-semibold text-muted-foreground leading-tight">
+                    {item.label}
+                  </span>
                 </div>
               ))}
             </div>
           </div>
-        </aside>
+        </SpotlightCard>
       </div>
     </section>
   );

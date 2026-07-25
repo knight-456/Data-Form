@@ -5,6 +5,7 @@ import StoreProvider from "./store.provider";
 import ThemeProvider from "./theme.provider";
 import ModalProvider from "./modal.provider";
 import LayoutProvider from "./layout.provider";
+import { FullPageLoader } from "@/components/full-page-loader";
 
 type TProvider = {
   children: React.ReactNode;
@@ -12,7 +13,7 @@ type TProvider = {
 
 const Provider = ({ children }: TProvider) => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<FullPageLoader />}>
       <AuthProvider>
         <StoreProvider>
           <ThemeProvider>

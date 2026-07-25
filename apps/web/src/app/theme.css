@@ -30,11 +30,11 @@
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
 
-  /* Brand Colors - User Customizable */
-  --color-brand: hsl(var(--brand));
-  --color-brand-foreground: hsl(var(--brand-foreground));
-  --color-brand-light: hsl(var(--brand-light));
-  --color-brand-dark: hsl(var(--brand-dark));
+  /* Brand Colors - Pure Dark Cobalt Blue (210 100% 45%) */
+  --color-brand: hsl(210 100% 45%);
+  --color-brand-foreground: hsl(0 0% 100%);
+  --color-brand-light: hsl(208 100% 60%);
+  --color-brand-dark: hsl(212 100% 32%);
 
   /* Status Colors */
   --color-success: hsl(var(--success));

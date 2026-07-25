@@ -9,6 +9,14 @@ export const metadata: Metadata = {
   title: "Beyond The Limits",
   description: "Your unified platform for limitless possibilities",
   manifest: "/manifest.json",
+  icons: {
+    icon: [
+      { url: "/icon.png", type: "image/png" },
+      { url: "/favicon.ico" },
+    ],
+    shortcut: ["/icon.png"],
+    apple: ["/icon.png"],
+  },
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
@@ -33,7 +41,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >

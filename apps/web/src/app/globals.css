@@ -30,10 +30,10 @@
   --chart-5: 27 87% 67%;
 
   /* BTL Brand Colors - User Customizable */
-  --brand: 221 83% 53%;
+  --brand: 210 100% 45%;
   --brand-foreground: 0 0% 100%;
-  --brand-light: 221 83% 65%;
-  --brand-dark: 221 83% 40%;
+  --brand-light: 208 100% 60%;
+  --brand-dark: 212 100% 32%;
 
   /* Status Colors */
   --success: 142 76% 36%;
@@ -44,8 +44,8 @@
   --info-foreground: 0 0% 100%;
 
   /* Gradient */
-  --gradient-start: 221 83% 53%;
-  --gradient-end: 199 89% 48%;
+  --gradient-start: 210 100% 45%;
+  --gradient-end: 195 90% 42%;
 }
 
 /* Dark Mode CSS Variables */
@@ -72,14 +72,14 @@
   --chart-1: 220 70% 50%;
   --chart-2: 160 60% 45%;
   --chart-3: 30 80% 55%;
-  --chart-4: 280 65% 60%;
-  --chart-5: 340 75% 55%;
+  --chart-4: 210 80% 50%;
+  --chart-5: 200 85% 50%;
 
   /* BTL Brand Colors - Dark Mode */
-  --brand: 221 83% 60%;
+  --brand: 210 100% 55%;
   --brand-foreground: 0 0% 100%;
-  --brand-light: 221 83% 70%;
-  --brand-dark: 221 83% 45%;
+  --brand-light: 208 100% 68%;
+  --brand-dark: 212 100% 38%;
 
   /* Status Colors - Dark Mode */
   --success: 142 76% 45%;
@@ -90,8 +90,26 @@
   --info-foreground: 0 0% 100%;
 
   /* Gradient - Dark Mode */
-  --gradient-start: 221 83% 60%;
-  --gradient-end: 199 89% 55%;
+  --gradient-start: 210 100% 55%;
+  --gradient-end: 195 90% 48%;
+}
+
+/* Portfolio Page Pure Dark Blue Theme Overrides */
+.portfolio-theme {
+  --brand: 210 100% 45%;
+  --brand-light: 208 100% 60%;
+  --brand-dark: 212 100% 32%;
+  --gradient-start: 210 100% 45%;
+  --gradient-end: 195 90% 42%;
+}
+
+.dark .portfolio-theme,
+.dark.portfolio-theme {
+  --brand: 210 100% 55%;
+  --brand-light: 208 100% 68%;
+  --brand-dark: 212 100% 38%;
+  --gradient-start: 210 100% 55%;
+  --gradient-end: 195 90% 48%;
 }
 
 /* Base Styles */
@@ -120,6 +138,20 @@ body {
 
   50% {
     opacity: 0.5;
+  }
+}
+
+@keyframes loading-bar {
+  0% {
+    left: -50%;
+    width: 30%;
+  }
+  50% {
+    width: 60%;
+  }
+  100% {
+    left: 100%;
+    width: 30%;
   }
 }
 

@@ -11,11 +11,12 @@ import { ExperienceSection } from "./_components/experience-section";
 import { SystemsSection } from "./_components/systems-section";
 import { SkillsSection } from "./_components/skills-section";
 import { ContactSection } from "./_components/contact-section";
-// import { ParticleBackground } from "./_components/particle-background";
+import { BlogsSection } from "./_components/blogs-section";
+import { ParticleBackground } from "./_components/particle-background";
 import { TerminalOverlay } from "./_components/terminal-overlay";
 
 export default function PortfolioPage() {
-  const scrollToSection = (sectionId: (typeof navItems)[number]["id"] | "top") => {
+  const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
 
     if (!element) return;
@@ -37,6 +38,28 @@ export default function PortfolioPage() {
 
     window.history.replaceState(null, "", `#${sectionId}`);
   };
+
+  useEffect(() => {
+    if ("serviceWorker" in navigator) {
+      if (process.env.NODE_ENV === "production") {
+        navigator.serviceWorker.register("/sw.js").catch(() => {});
+      } else {
+        // Force unregister service worker & clear dev caches to stop reload loops
+        navigator.serviceWorker.getRegistrations().then((registrations) => {
+          for (const registration of registrations) {
+            registration.unregister();
+          }
+        });
+        if ("caches" in window) {
+          caches.keys().then((names) => {
+            for (const name of names) {
+              caches.delete(name);
+            }
+          });
+        }
+      }
+    }
+  }, []);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -69,13 +92,14 @@ export default function PortfolioPage() {
       className="relative min-h-screen font-sans text-foreground selection:bg-brand/20 selection:text-brand pb-8"
     >
       <BackgroundElements />
-      {/* <ParticleBackground /> */}
+      <ParticleBackground />
       <Header scrollToSection={scrollToSection} />
       <HeroSection />
       <AppsSection />
       <ExperienceSection />
       <SystemsSection />
       <SkillsSection />
+      <BlogsSection />
       <ContactSection />
       <TerminalOverlay />
     </main>
