@@ -13,8 +13,18 @@ export function Header({ scrollToSection }: { scrollToSection: (id: string) => v
   const [isClosing, setIsClosing] = useState(false);
   const [mounted, setMounted] = useState(false);
 
+  const [scrollProgress, setScrollProgress] = useState(0);
+
   useEffect(() => {
     setMounted(true);
+    const handleScroll = () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (totalHeight > 0) {
+        setScrollProgress((window.scrollY / totalHeight) * 100);
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const closeDrawer = () => {
@@ -91,6 +101,11 @@ export function Header({ scrollToSection }: { scrollToSection: (id: string) => v
 
   return (
     <header className="sticky top-0 z-50 backdrop-blur-md border-b border-border/40 bg-background/60">
+      {/* Scroll Progress Line */}
+      <div
+        className="h-[2px] bg-brand transition-all duration-150 ease-out"
+        style={{ width: `${scrollProgress}%` }}
+      />
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
         
         {/* Brand Logo & Name */}

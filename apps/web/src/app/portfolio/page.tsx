@@ -1,21 +1,28 @@
 "use client";
 
-import { useEffect } from "react";
-
+import { useState, useEffect } from "react";
+import { ArrowUp, Calendar } from "lucide-react";
 import { navItems } from "./data";
 import { BackgroundElements } from "./_components/background-elements";
 import { Header } from "./_components/header";
 import { HeroSection } from "./_components/hero-section";
+import { MetricsScorecard } from "./_components/metrics-scorecard";
 import { AppsSection } from "./_components/apps-section";
 import { ExperienceSection } from "./_components/experience-section";
 import { SystemsSection } from "./_components/systems-section";
+import { CodeDiffViewer } from "./_components/code-diff-viewer";
 import { SkillsSection } from "./_components/skills-section";
-import { ContactSection } from "./_components/contact-section";
+import { TestimonialsSection } from "./_components/testimonials-section";
 import { BlogsSection } from "./_components/blogs-section";
+import { ContactSection } from "./_components/contact-section";
 import { ParticleBackground } from "./_components/particle-background";
 import { TerminalOverlay } from "./_components/terminal-overlay";
+import { QuickConnectModal } from "./_components/quick-connect-modal";
 
 export default function PortfolioPage() {
+  const [showBackToTop, setShowBackToTop] = useState(false);
+  const [quickConnectOpen, setQuickConnectOpen] = useState(false);
+
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
 
@@ -38,6 +45,18 @@ export default function PortfolioPage() {
 
     window.history.replaceState(null, "", `#${sectionId}`);
   };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 400) {
+        setShowBackToTop(true);
+      } else {
+        setShowBackToTop(false);
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     if ("serviceWorker" in navigator) {
@@ -94,14 +113,53 @@ export default function PortfolioPage() {
       <BackgroundElements />
       <ParticleBackground />
       <Header scrollToSection={scrollToSection} />
+      
       <HeroSection />
+      
+      {/* 1. Verified Metrics Scorecard */}
+      {/* <MetricsScorecard /> */}
+      
       <AppsSection />
       <ExperienceSection />
       <SystemsSection />
+      
+      {/* 2. Interactive Code & Architecture Diff Viewer */}
+      <CodeDiffViewer />
+      
       <SkillsSection />
+      <TestimonialsSection />
       <BlogsSection />
       <ContactSection />
+      
       <TerminalOverlay />
+
+      {/* Quick Connect Interview Scheduling Trigger Button */}
+      <button
+        type="button"
+        onClick={() => setQuickConnectOpen(true)}
+        className="fixed bottom-6 left-6 z-50 flex items-center gap-2 px-4 py-3 rounded-full bg-brand text-primary-foreground font-bold text-xs shadow-[0_10px_30px_hsla(var(--brand),0.35)] hover:scale-105 transition-all cursor-pointer group"
+      >
+        <Calendar className="w-4 h-4 group-hover:rotate-12 transition-transform" />
+        <span>Book 15-Min Chat</span>
+      </button>
+
+      {/* Floating Back to Top Pill Button */}
+      {showBackToTop && (
+        <button
+          type="button"
+          onClick={() => scrollToSection("top")}
+          className="fixed bottom-24 right-6 z-50 p-3.5 rounded-full bg-card border border-border/60 text-foreground shadow-lg hover:bg-muted transition-all cursor-pointer animate-in fade-in duration-200"
+          aria-label="Back to top"
+        >
+          <ArrowUp className="w-4 h-4" />
+        </button>
+      )}
+
+      {/* Quick Connect Modal */}
+      <QuickConnectModal
+        isOpen={quickConnectOpen}
+        onClose={() => setQuickConnectOpen(false)}
+      />
     </main>
   );
 }

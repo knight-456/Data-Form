@@ -19,6 +19,7 @@ export const navItems = [
   { label: "Experience", id: "experience" },
   { label: "Systems", id: "systems" },
   { label: "Skills", id: "skills" },
+  { label: "Testimonials", id: "testimonials" },
   { label: "Blogs", id: "blogs" },
   { label: "Contact", id: "contact" },
 ] as const;
@@ -422,5 +423,63 @@ Try out the interactive event stream and Redux slice simulator widget below to s
     date: "May 5, 2026",
     readTime: "6 min read",
     tags: ["State Machine", "SQLite Persistence", "Mobile Architecture"],
+  },
+];
+
+export type TTestimonial = {
+  id: number;
+  name: string;
+  role: string;
+  relationship: string;
+  initials: string;
+  quote: string;
+  skills: string[];
+  gradient: string;
+};
+
+export const testimonials: TTestimonial[] = [
+  {
+    id: 1,
+    name: "Ashutosh Anand",
+    role: "Senior Full Stack Developer",
+    relationship: "Senior Lead",
+    initials: "AA",
+    quote:
+      "Jashwant's ownership of the entire mobile and frontend pipeline is exceptional. From building multi-tenant SaaS dashboards to shipping battery-aware Play Store apps from scratch, his technical depth, reliability, and architectural clarity are top-tier.",
+    skills: ["System Architecture", "React Native", "Monorepo"],
+    gradient: "from-blue-600 to-indigo-600",
+  },
+  {
+    id: 2,
+    name: "Anjali Sharma",
+    role: "Backend Developer",
+    relationship: "Co-worker",
+    initials: "AS",
+    quote:
+      "Jashwant is one of the rare frontend engineers who deeply understands backend contracts, REST API design, and WebSocket optimization. Integrating live operational dashboards and field tracking APIs with his React Native apps was always smooth and rock solid.",
+    skills: ["WebSocket Sync", "API Design", "State Management"],
+    gradient: "from-cyan-600 to-blue-600",
+  },
+  {
+    id: 3,
+    name: "Amarjeet Singh",
+    role: "Junior Frontend Developer",
+    relationship: "Co-worker & Mentee",
+    initials: "AS",
+    quote:
+      "Working under Jashwant's guidance completely transformed how I write React and TypeScript code. He introduced clean component architecture, Redux Toolkit best practices, and disciplined code reviews that helped our team ship complex mobile screens faster.",
+    skills: ["Mentorship", "TypeScript", "Code Reviews"],
+    gradient: "from-emerald-600 to-teal-600",
+  },
+  {
+    id: 4,
+    name: "Shivani Chauhan",
+    role: "Junior Frontend Developer",
+    relationship: "Co-worker & Mentee",
+    initials: "SC",
+    quote:
+      "Jashwant has a phenomenal eye for UI polish and performance optimization. He taught me how to diagnose re-render bottlenecks, build reusable Tailwind design systems, and approach mobile state management with a resilient, offline-first mindset.",
+    skills: ["UI Systems", "Performance", "Offline First"],
+    gradient: "from-purple-600 to-blue-600",
   },
 ];

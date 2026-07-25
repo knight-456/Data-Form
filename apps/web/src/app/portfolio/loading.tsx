@@ -108,6 +108,37 @@ export default function PortfolioLoading() {
           </div>
         </div>
 
+        {/* TESTIMONIALS SECTION SKELETON */}
+        <div className="mt-16">
+          <div className="w-32 h-4 bg-brand/30 animate-pulse rounded-full mb-3" />
+          <div className="w-80 h-8 bg-muted/85 animate-pulse rounded-md mb-8" />
+
+          <div className="grid gap-6 md:grid-cols-2">
+            {[1, 2, 3, 4].map((i) => (
+              <div key={i} className="border border-border/40 rounded-[24px] p-6 bg-muted/20 h-56 flex flex-col justify-between">
+                <div>
+                  <div className="flex justify-between items-center mb-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-2xl bg-muted/80 animate-pulse" />
+                      <div className="space-y-1">
+                        <div className="w-32 h-4 bg-muted/85 animate-pulse rounded-md" />
+                        <div className="w-24 h-3 bg-muted/50 animate-pulse rounded-md" />
+                      </div>
+                    </div>
+                    <div className="w-20 h-5 rounded-full bg-brand/20 animate-pulse" />
+                  </div>
+                  <div className="w-full h-4 bg-muted/50 animate-pulse rounded-md mb-2" />
+                  <div className="w-5/6 h-4 bg-muted/50 animate-pulse rounded-md" />
+                </div>
+                <div className="flex gap-2 pt-4 border-t border-border/30">
+                  <div className="w-16 h-4 bg-muted/60 animate-pulse rounded-md" />
+                  <div className="w-16 h-4 bg-muted/60 animate-pulse rounded-md" />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* BLOGS SECTION SKELETON */}
         <div className="mt-16">
           <div className="w-32 h-4 bg-brand/30 animate-pulse rounded-full mb-3" />
