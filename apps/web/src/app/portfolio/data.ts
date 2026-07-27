@@ -424,6 +424,69 @@ Try out the interactive event stream and Redux slice simulator widget below to s
     readTime: "6 min read",
     tags: ["State Machine", "SQLite Persistence", "Mobile Architecture"],
   },
+  {
+    slug: "client-side-deduplication-for-location-pings-haversine-distance-time-windows",
+    title: "Client-Side Deduplication for Location Pings: Haversine Distance & Time Windows",
+    mediumUrl: "https://medium.com/@rana.jashwant07/client-side-deduplication-for-location-pings-haversine-distance-time-windows-de37b9b527a2",
+    excerpt: "How to filter GPS jitter, duplicate location pings, and stationary battery drain on Android and iOS using client-side Haversine distance thresholding and sliding time windows.",
+    content: `High-frequency GPS tracking can generate thousands of redundant location pings when a worker is stationary, draining device battery and cluttering backend databases.
+
+### 1. Haversine Distance Thresholding
+Before dispatching a location ping to the server, calculate the Haversine distance between the newly received \`(lat2, lon2)\` and the last recorded location \`(lat1, lon1)\`:
+
+\`\`\`ts
+function getHaversineDistance(lat1: number, lon1: number, lat2: number, lon2: number): number {
+  const R = 6371e3; // Earth radius in meters
+  const φ1 = (lat1 * Math.PI) / 180;
+  const φ2 = (lat2 * Math.PI) / 180;
+  const Δφ = ((lat2 - lat1) * Math.PI) / 180;
+  const Δλ = ((lon2 - lon1) * Math.PI) / 180;
+
+  const a =
+    Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
+    Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+  return R * c; // Distance in meters
+}
+\`\`\`
+
+### 2. Time Window & Distance Rules
+* **Distance Rule**: Discard pings where \`distance < 15 meters\` unless a stationary time window threshold (e.g. 5 minutes) has elapsed.
+* **Accuracy Filter**: Drop pings where GPS accuracy radius \`> 30 meters\` to prevent false jumps inside buildings.
+* **Outcome**: Reduced backend database write load by 65% and extended mobile battery life by up to 3 hours per shift.`,
+    date: "Jun 2, 2026",
+    readTime: "6 min read",
+    tags: ["Haversine Formula", "GPS Deduplication", "Mobile Performance", "Geolocation"],
+  },
+  {
+    slug: "idempotency-keys-for-location-tracking-apis",
+    title: "Idempotency Keys for Location Tracking APIs",
+    mediumUrl: "https://medium.com/@rana.jashwant07/idempotency-keys-for-location-tracking-apis-37acd9cfddec",
+    excerpt: "How to eliminate duplicate GPS check-ins, double ping submissions, and server race conditions over flaky mobile networks using client-generated Idempotency Keys.",
+    content: `When mobile apps transmit location pings over unstable 3G/4G networks, HTTP timeouts frequently cause clients to retry requests that the server already processed, creating duplicate visit logs and corrupting attendance records.
+
+### 1. Generating Client-Side Deterministic Keys
+Every location ping batch generates a unique, deterministic Idempotency Key header:
+
+\`\`\`ts
+const idempotencyKey = \`ping_\${userId}_\${sessionId}_\${pingTimestamp}_\${sha256(lat + lng)}\`;
+// Attach to HTTP request headers: 'Idempotency-Key': idempotencyKey
+\`\`\`
+
+### 2. Redis Locking & Deduplication Pipeline
+On the backend API gateway:
+1. **Atomic Lock Check**: Check Redis using \`SET key value NX EX 86400\`.
+2. **First Request**: Executes business logic and caches the resulting HTTP response payload in Redis.
+3. **Duplicate Request**: Returns the cached response immediately with HTTP \`200 OK\` (or \`409 Conflict\`) without re-running database writes.
+
+### 3. Measured Impact
+* **Zero Duplicate Check-ins**: 100% elimination of double attendance check-ins caused by mobile network retries.
+* **Network Flakiness Resiliency**: Seamless recovery when mobile clients transition through tunnels or poor coverage zones.`,
+    date: "Jun 10, 2026",
+    readTime: "7 min read",
+    tags: ["Idempotency Keys", "API Security", "Distributed Systems", "Mobile Networks"],
+  },
 ];
 
 export type TTestimonial = {
